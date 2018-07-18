@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Koloda
+
 
 class MainViewController: UIViewController {
 
