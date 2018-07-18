@@ -8,20 +8,30 @@
 
 /* Begin PBXBuildFile section */
 		048325AD20FF9544007BBBFC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048325AC20FF9544007BBBFC /* AppDelegate.swift */; };
-		048325AF20FF9544007BBBFC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048325AE20FF9544007BBBFC /* ViewController.swift */; };
 		048325B220FF9544007BBBFC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048325B020FF9544007BBBFC /* Main.storyboard */; };
 		048325B420FF9544007BBBFC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 048325B320FF9544007BBBFC /* Assets.xcassets */; };
 		048325B720FF9544007BBBFC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048325B520FF9544007BBBFC /* LaunchScreen.storyboard */; };
+		048325C920FF96F3007BBBFC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048325C820FF96F3007BBBFC /* MainViewController.swift */; };
+		048325CB20FF973C007BBBFC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048325CA20FF973C007BBBFC /* LoginViewController.swift */; };
+		048325CD20FF9747007BBBFC /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048325CC20FF9747007BBBFC /* RegisterViewController.swift */; };
+		048325CF20FF9755007BBBFC /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048325CE20FF9755007BBBFC /* PreferencesViewController.swift */; };
+		048325D120FF975E007BBBFC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048325D020FF975E007BBBFC /* ProfileViewController.swift */; };
+		048325D420FF9AB1007BBBFC /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048325D320FF9AB1007BBBFC /* ForgotPasswordViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		048325A920FF9544007BBBFC /* FingerFood.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FingerFood.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		048325AC20FF9544007BBBFC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		048325AE20FF9544007BBBFC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		048325B120FF9544007BBBFC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		048325B320FF9544007BBBFC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		048325B620FF9544007BBBFC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		048325B820FF9544007BBBFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		048325C820FF96F3007BBBFC /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		048325CA20FF973C007BBBFC /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		048325CC20FF9747007BBBFC /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		048325CE20FF9755007BBBFC /* PreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
+		048325D020FF975E007BBBFC /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		048325D320FF9AB1007BBBFC /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,13 +65,26 @@
 			isa = PBXGroup;
 			children = (
 				048325AC20FF9544007BBBFC /* AppDelegate.swift */,
-				048325AE20FF9544007BBBFC /* ViewController.swift */,
 				048325B020FF9544007BBBFC /* Main.storyboard */,
 				048325B320FF9544007BBBFC /* Assets.xcassets */,
 				048325B520FF9544007BBBFC /* LaunchScreen.storyboard */,
 				048325B820FF9544007BBBFC /* Info.plist */,
+				048325D220FF9766007BBBFC /* Controllers */,
 			);
 			path = FingerFood;
+			sourceTree = "<group>";
+		};
+		048325D220FF9766007BBBFC /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				048325C820FF96F3007BBBFC /* MainViewController.swift */,
+				048325CA20FF973C007BBBFC /* LoginViewController.swift */,
+				048325CC20FF9747007BBBFC /* RegisterViewController.swift */,
+				048325CE20FF9755007BBBFC /* PreferencesViewController.swift */,
+				048325D020FF975E007BBBFC /* ProfileViewController.swift */,
+				048325D320FF9AB1007BBBFC /* ForgotPasswordViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,8 +158,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				048325AF20FF9544007BBBFC /* ViewController.swift in Sources */,
+				048325CB20FF973C007BBBFC /* LoginViewController.swift in Sources */,
+				048325D420FF9AB1007BBBFC /* ForgotPasswordViewController.swift in Sources */,
+				048325CD20FF9747007BBBFC /* RegisterViewController.swift in Sources */,
 				048325AD20FF9544007BBBFC /* AppDelegate.swift in Sources */,
+				048325D120FF975E007BBBFC /* ProfileViewController.swift in Sources */,
+				048325C920FF96F3007BBBFC /* MainViewController.swift in Sources */,
+				048325CF20FF9755007BBBFC /* PreferencesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
