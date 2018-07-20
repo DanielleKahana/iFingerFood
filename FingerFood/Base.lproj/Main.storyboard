@@ -136,9 +136,37 @@
                     <view key="view" contentMode="scaleToFill" id="FTZ-MG-gK8">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="KolodaView" translatesAutoresizingMaskIntoConstraints="NO" id="gZj-XR-7Xj" customClass="KolodaView" customModule="Koloda">
+                                <rect key="frame" x="75" y="188" width="224" height="290"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yHi-FS-bRp">
+                                <rect key="frame" x="75" y="486" width="85" height="39"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="no"/>
+                                <connections>
+                                    <action selector="disslikeBtnPressed:" destination="nPb-1T-ao3" eventType="touchUpInside" id="DO4-Hg-9uN"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kf2-fl-Thy">
+                                <rect key="frame" x="221" y="486" width="78" height="39"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <state key="normal" title="yes"/>
+                                <connections>
+                                    <action selector="likeBtnPressed:" destination="nPb-1T-ao3" eventType="touchUpInside" id="sAZ-xQ-xDf"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="4vw-Ut-euu"/>
                     </view>
+                    <connections>
+                        <outlet property="kolodaView" destination="gZj-XR-7Xj" id="PzC-zn-xXz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8u9-63-ZCf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
