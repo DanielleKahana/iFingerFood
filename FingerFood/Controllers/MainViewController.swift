@@ -36,20 +36,16 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
         kolodaView.dataSource = self
         kolodaView.delegate = self
         self.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
+        
+        let user = Auth.auth().currentUser
+        if let user = user {
+            let uid = user.uid
+            let email = user.email
+            print("userID = \(uid) , email = \(String(describing: email))")
+        }
     }
     
     
-/* let user = Auth.auth().currentUser
- // [END get_user_profile]
- // [START user_profile]
- if let user = user {
- // The user's ID, unique to the Firebase project.
- // Do NOT use this value to authenticate with your backend server,
- // if you have one. Use getTokenWithCompletion:completion: instead.
- let uid = user.uid
- let email = user.email
- let photoURL = user.photoURL
- */
 
     @IBAction func likeBtnPressed(_ sender: Any) {
         kolodaView?.swipe(.right)
@@ -91,14 +87,23 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
     }
     
     @IBAction func signOutPressed(_ sender: Any) {
-        let firebaseAuth = Auth.auth()
-        do {
-            try firebaseAuth.signOut()
-        } catch let signOutError as NSError {
-            print ("Error signing out: %@", signOutError)
-        }
+        let alert = UIAlertController(title: "Log Out", message: "Are you sure you want to log out?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "No", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+            let firebaseAuth = Auth.auth()
+            do {
+                try firebaseAuth.signOut()
+            } catch let signOutError as NSError {
+                print ("Error signing out: %@", signOutError)
+            }
+            
+    }))
+        self.present(alert, animated: true)
+        
         
     }
+    
+    
     
     
     

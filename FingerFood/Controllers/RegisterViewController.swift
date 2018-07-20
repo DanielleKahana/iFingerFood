@@ -44,41 +44,48 @@ class RegisterViewController: UIViewController {
     @IBAction func registerBtnPressed(_ sender: Any) {
         
         guard let firstName = emailTextField.text, !firstName.isEmpty else {
-            //show alert
+            showAlert()
             return
         }
         guard let LastName = passwordTextField.text, !LastName.isEmpty else {
-            //show alert
+            showAlert()
             return
         }
         guard let email = passwordTextField.text, !email.isEmpty else {
-            //show alert
+            showAlert()
             return
         }
         guard let password = passwordTextField.text, !password.isEmpty else {
-            //show alert
+            showAlert()
             return
         }
+        showSpinner()
         
-        self.showSpinner {
-            // [START create_user]
-        Auth.auth().createUser(withEmail: email, password: password) { (authResult, error) in
-            // [START_EXCLUDE]
-            self.hideSpinner {
-                guard let email = authResult?.user.email, error == nil else {
-                    self.showMessagePrompt(error!.localizedDescription)
-                    return
-                }
-                print("\(email) created")
-                self.navigationController!.popViewController(animated: true)
+        Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
+            self.hideSpinner();
+            if user != nil {
+                print("registered successfully!")
+                self.navigationController?.popViewController(animated: true)
             }
-            // [END_EXCLUDE]
-        }
-        
+            else {
+                print("error creating user!")
+            }
+           
+        })
+    }
+    
+    func showSpinner(){
+        print("spinnnn")
+    }
+    
+    func hideSpinner(){
         
     }
     
-   
+    func showAlert(){
+        let alert = UIAlertController(title: "Oops!", message: "Please fill out all the fields in order to register", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Got it", style: UIAlertActionStyle.default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
     
-
 }

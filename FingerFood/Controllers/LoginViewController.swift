@@ -47,38 +47,27 @@ class LoginViewController: UIViewController {
 
     
     @IBAction func signInBtnPressed(_ sender: UIButton) {
-        guard let email = emailTextField.text, !email.isEmpty else {
-            //show alert
-            return
-        }
         
-        guard let password = passwordTextField.text, !password.isEmpty else {
-            //show alert
-            return
-        }
-        
-        showSpinner {
-            // [START headless_email_auth]
-            Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
-                // [START_EXCLUDE]
-                self.hideSpinner {
-                    if let error = error {
-                        self.showMessagePrompt(error.localizedDescription)
-                        return
-                    }
-                    //self.navigationController!.popViewController(animated: true)
+        if let email = emailTextField.text , let password = passwordTextField.text
+        {
+            showSpinner()
+            Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
+                self.hideSpinner()
+                if user != nil {
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     let viewController = storyboard.instantiateViewController(withIdentifier:  "MainViewController")
-                    navigationController?.pushViewController(viewController, animated: true)
+                    self.navigationController?.pushViewController(viewController, animated: true)
                 }
-                // [END_EXCLUDE]
-            }
-            // [END headless_email_auth]
+                else {
+                    print("no user Found!")
+                }
+                
+            })
+        } else {
+            showAlert()
         }
-        
-        
-        
-    }
+        }
+    
     
     
     @IBAction func forgotPasswordBtnPressed(_ sender: Any) {
@@ -92,6 +81,20 @@ class LoginViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewController(withIdentifier:  "RegisterViewController")
         navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    func showSpinner(){
+        print("spinnnning")
+    }
+    
+    func hideSpinner(){
+         print("NOT spinnnning")
+    }
+    
+    func showAlert(){
+        let alert = UIAlertController(title: "Oops!", message: "Please fill out all the fields in order to sign in", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Got it", style: UIAlertActionStyle.default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
     
     
