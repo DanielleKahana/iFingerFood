@@ -7,18 +7,23 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
 
 class RegisterViewController: UIViewController {
 
+    @IBOutlet weak var firstNameTextField: UITextField!
+    @IBOutlet weak var lastNameTextField: UITextField!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -36,6 +41,44 @@ class RegisterViewController: UIViewController {
     }
     
 
+    @IBAction func registerBtnPressed(_ sender: Any) {
+        
+        guard let firstName = emailTextField.text, !firstName.isEmpty else {
+            //show alert
+            return
+        }
+        guard let LastName = passwordTextField.text, !LastName.isEmpty else {
+            //show alert
+            return
+        }
+        guard let email = passwordTextField.text, !email.isEmpty else {
+            //show alert
+            return
+        }
+        guard let password = passwordTextField.text, !password.isEmpty else {
+            //show alert
+            return
+        }
+        
+        self.showSpinner {
+            // [START create_user]
+        Auth.auth().createUser(withEmail: email, password: password) { (authResult, error) in
+            // [START_EXCLUDE]
+            self.hideSpinner {
+                guard let email = authResult?.user.email, error == nil else {
+                    self.showMessagePrompt(error!.localizedDescription)
+                    return
+                }
+                print("\(email) created")
+                self.navigationController!.popViewController(animated: true)
+            }
+            // [END_EXCLUDE]
+        }
+        
+        
+    }
+    
    
+    
 
 }

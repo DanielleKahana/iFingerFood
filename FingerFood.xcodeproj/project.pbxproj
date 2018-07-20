@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		047AEB022101EA5D000CE265 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 047AEB012101EA5D000CE265 /* GoogleService-Info.plist */; };
 		048325AD20FF9544007BBBFC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048325AC20FF9544007BBBFC /* AppDelegate.swift */; };
 		048325B220FF9544007BBBFC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048325B020FF9544007BBBFC /* Main.storyboard */; };
 		048325B420FF9544007BBBFC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 048325B320FF9544007BBBFC /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		047AEB012101EA5D000CE265 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		048325A920FF9544007BBBFC /* FingerFood.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FingerFood.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		048325AC20FF9544007BBBFC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		048325B120FF9544007BBBFC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 		048325AB20FF9544007BBBFC /* FingerFood */ = {
 			isa = PBXGroup;
 			children = (
+				047AEB012101EA5D000CE265 /* GoogleService-Info.plist */,
 				048325AC20FF9544007BBBFC /* AppDelegate.swift */,
 				048325B020FF9544007BBBFC /* Main.storyboard */,
 				048325B320FF9544007BBBFC /* Assets.xcassets */,
@@ -172,6 +175,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				048325B720FF9544007BBBFC /* LaunchScreen.storyboard in Resources */,
+				047AEB022101EA5D000CE265 /* GoogleService-Info.plist in Resources */,
 				048325B420FF9544007BBBFC /* Assets.xcassets in Resources */,
 				048325B220FF9544007BBBFC /* Main.storyboard in Resources */,
 			);
@@ -205,12 +209,18 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-FingerFood/Pods-FingerFood-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Koloda/Koloda.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 				"${BUILT_PRODUCTS_DIR}/pop/pop.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Koloda.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/pop.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
