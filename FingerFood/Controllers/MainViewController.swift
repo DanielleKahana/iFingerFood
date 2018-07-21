@@ -43,6 +43,8 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
             let email = user.email
             print("userID = \(uid) , email = \(String(describing: email))")
         }
+        
+        let userLikedCards = DataManager.sharedDatabase.getUserLikedCards()
     }
     
     
