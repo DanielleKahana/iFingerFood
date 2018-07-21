@@ -35,4 +35,8 @@ class Restaurant{
         cardList = [Card]()
         }
     
+    func addCardToList( card : Card) {
+        self.cardList.append(card)
+    }
+    
 }

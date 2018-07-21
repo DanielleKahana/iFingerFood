@@ -37,6 +37,8 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
         kolodaView.delegate = self
         self.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
         
+        let allRestaurants = DataManager.sharedDatabase.getAllRestaurants()
+        
         let user = Auth.auth().currentUser
         if let user = user {
             let uid = user.uid
@@ -44,7 +46,7 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
             print("userID = \(uid) , email = \(String(describing: email))")
         }
         
-        let userLikedCards = DataManager.sharedDatabase.getUserLikedCards()
+       // let userLikedCards = DataManager.sharedDatabase.getUserLikedCards()
     }
     
     
@@ -67,7 +69,7 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
     }
     
     func koloda(_ koloda: KolodaView, viewForCardAt index: Int) -> UIView {
-        print("index = \(index)")
+        //print("index = \(index)")
         return UIImageView(image: dataSource[index])
     }
    
