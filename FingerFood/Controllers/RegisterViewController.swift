@@ -9,6 +9,8 @@
 import UIKit
 import Firebase
 import FirebaseAuth
+import Toast_Swift
+import SVProgressHUD
 
 class RegisterViewController: UIViewController {
 
@@ -42,50 +44,88 @@ class RegisterViewController: UIViewController {
     
 
     @IBAction func registerBtnPressed(_ sender: Any) {
+        removeHighlightFromAllTextFields()
         
-        guard let firstName = emailTextField.text, !firstName.isEmpty else {
-            showAlert()
+        guard let firstName = firstNameTextField.text, !firstName.isEmpty else {
+            showMissingFieldAlert(textField: firstNameTextField)
+            HighlightErrorTextField(textField: firstNameTextField)
             return
         }
-        guard let LastName = passwordTextField.text, !LastName.isEmpty else {
-            showAlert()
+        guard let LastName = lastNameTextField.text, !LastName.isEmpty else {
+            showMissingFieldAlert(textField: lastNameTextField)
+            HighlightErrorTextField(textField: lastNameTextField)
             return
         }
-        guard let email = passwordTextField.text, !email.isEmpty else {
-            showAlert()
+        guard let email = emailTextField.text?.trimmingCharacters(in: .whitespaces), !email.isEmpty else {
+            showMissingFieldAlert(textField: emailTextField)
+            HighlightErrorTextField(textField: emailTextField)
             return
         }
-        guard let password = passwordTextField.text, !password.isEmpty else {
-            showAlert()
+        guard let password = passwordTextField.text?.trimmingCharacters(in: .whitespaces), !password.isEmpty else {
+            showMissingFieldAlert(textField: passwordTextField)
+            HighlightErrorTextField(textField: passwordTextField)
             return
         }
-        showSpinner()
+        SVProgressHUD.show()
         
         Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
-            self.hideSpinner();
-            if user != nil {
+            SVProgressHUD.dismiss()
+            if error != nil {
                 print("registered successfully!")
-                self.navigationController?.popViewController(animated: true)
+                self.showWelcomeMessage()
             }
             else {
-                print("error creating user!")
+                self.view.makeToast("Couldn't create user.. Please make sure you entered a valid details", duration: 4.0 , position: .bottom)
+                print("error creating user = \(String(describing: error))")
             }
            
         })
     }
     
-    func showSpinner(){
-        print("spinnnn")
+   
+    
+    func HighlightErrorTextField(textField : UITextField) {
+        textField.layer.borderColor = UIColor.red.cgColor
+        textField.layer.borderWidth = 3
+        textField.layer.cornerRadius = 5
     }
     
-    func hideSpinner(){
+    func removeHighlightFromAllTextFields() {
+        firstNameTextField.layer.borderColor = UIColor.gray.cgColor
+        firstNameTextField.layer.borderWidth = 0
+        firstNameTextField.layer.cornerRadius = 5
         
+        lastNameTextField.layer.borderColor = UIColor.gray.cgColor
+        lastNameTextField.layer.borderWidth = 0
+        lastNameTextField.layer.cornerRadius = 5
+        
+        emailTextField.layer.borderColor = UIColor.gray.cgColor
+        emailTextField.layer.borderWidth = 0
+        emailTextField.layer.cornerRadius = 5
+        
+        passwordTextField.layer.borderColor = UIColor.gray.cgColor
+        passwordTextField.layer.borderWidth = 0
+        passwordTextField.layer.cornerRadius = 5
     }
     
-    func showAlert(){
-        let alert = UIAlertController(title: "Oops!", message: "Please fill out all the fields in order to register", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Got it", style: UIAlertActionStyle.default, handler: nil))
+    
+    func showMissingFieldAlert(textField : UITextField){
+        self.view.makeToast("Please fill out your \(textField.placeholder!) in order to register", duration: 3.0 , position: .center)
+ }
+    
+    
+    func showWelcomeMessage() {
+        let alert = UIAlertController(title: "Welcome!", message: "Your user registered successfully!", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "Got it", style: UIAlertActionStyle.default, handler: { action in
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let viewController = storyboard.instantiateViewController(withIdentifier:  "MainViewController")
+            self.navigationController?.pushViewController(viewController, animated: true)
+        }))
         present(alert, animated: true, completion: nil)
     }
-    
+
+  
 }
+    
+
+

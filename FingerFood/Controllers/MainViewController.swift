@@ -93,13 +93,13 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
             let firebaseAuth = Auth.auth()
             do {
                 try firebaseAuth.signOut()
+                self.navigationController?.popToRootViewController(animated: true)
             } catch let signOutError as NSError {
                 print ("Error signing out: %@", signOutError)
             }
             
     }))
         self.present(alert, animated: true)
-        
         
     }
     

@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseAuth
+import SVProgressHUD
 
 class LoginViewController: UIViewController {
 
@@ -50,20 +51,23 @@ class LoginViewController: UIViewController {
         
         if let email = emailTextField.text , let password = passwordTextField.text
         {
-            showSpinner()
+            SVProgressHUD.show()
+            
             Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
-                self.hideSpinner()
-                if user != nil {
+                SVProgressHUD.dismiss()
+                if error != nil {
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     let viewController = storyboard.instantiateViewController(withIdentifier:  "MainViewController")
                     self.navigationController?.pushViewController(viewController, animated: true)
                 }
                 else {
-                    print("no user Found!")
+                    self.view.makeToast("Couldn't sign in.. Please make sure you entered the correct email and password", duration: 4.0 , position: .bottom)
+                    print("error creating user = \(String(describing: error))")
                 }
                 
             })
         } else {
+            //missing fields
             showAlert()
         }
         }
@@ -83,13 +87,6 @@ class LoginViewController: UIViewController {
         navigationController?.pushViewController(viewController, animated: true)
     }
     
-    func showSpinner(){
-        print("spinnnning")
-    }
-    
-    func hideSpinner(){
-         print("NOT spinnnning")
-    }
     
     func showAlert(){
         let alert = UIAlertController(title: "Oops!", message: "Please fill out all the fields in order to sign in", preferredStyle: UIAlertControllerStyle.alert)
