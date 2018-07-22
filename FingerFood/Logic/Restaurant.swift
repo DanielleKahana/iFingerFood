@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 class Restaurant{
     private var id : String
     private var name : String
@@ -20,6 +21,7 @@ class Restaurant{
     private var hasDelivery : Bool
     private var price : Int
     private var cardList : [Card]
+  
     
     init(id : String , name : String , webSiteURL : String , phone : String , address: String , latitude : Double , longtitude : Double , isKosher: Bool , hasDelivery : Bool , price : Int  ){
         self.id = id
@@ -33,10 +35,17 @@ class Restaurant{
         self.hasDelivery = hasDelivery
         self.price = price
         cardList = [Card]()
+
         }
     
     func addCardToList( card : Card) {
         self.cardList.append(card)
     }
+    
+    func getAllCards() -> [Card] {
+        return cardList
+    }
+    
+ 
     
 }

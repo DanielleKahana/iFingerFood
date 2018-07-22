@@ -20,6 +20,13 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
 
     @IBOutlet weak var kolodaView: KolodaView!
     
+  
+    
+    private var allRestaurants : [Restaurant] = []
+    private var allLikedCards : [Card] = []
+    private var cardsToShow : [Card] = []
+    private var allEligbleCards : [Card] = []
+    private var cardToShowImages : [UIImage] = []
     
     private var dataSource : [UIImage] = {
         var array: [UIImage] = []
@@ -32,25 +39,56 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-     
+    
+        allRestaurants = DataManager.sharedDatabase.getAllRestaurants()
+        setCardToShow()
+        
         kolodaView.dataSource = self
         kolodaView.delegate = self
         self.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
         
-        let allRestaurants = DataManager.sharedDatabase.getAllRestaurants()
+      
         
-        let user = Auth.auth().currentUser
-        if let user = user {
-            let uid = user.uid
-            let email = user.email
-            print("userID = \(uid) , email = \(String(describing: email))")
-        }
-        
-       // let userLikedCards = DataManager.sharedDatabase.getUserLikedCards()
+    }
+    
+  
+    func isEligble(restaurant : Restaurant) -> Bool {
+        return true
     }
     
     
-
+    
+    @objc
+    func setCardToShow() -> Void {
+        for rest in allRestaurants {
+            if isEligble(restaurant: rest) {
+                allEligbleCards.append(contentsOf: rest.getAllCards())
+            }
+        }
+        
+        let cardsToRemove = Set(allLikedCards)
+        cardsToShow = Array(Set(allEligbleCards).subtracting(cardsToRemove))
+        for card in cardsToShow {
+            let url = card.getCardURL()
+            
+            if let data = try? Data(contentsOf: url) {
+                let image = UIImage(data: data)
+                self.cardToShowImages.append(image!)
+            }
+            /*
+            DispatchQueue.global().async {
+                if let data = try? Data(contentsOf: url) {
+                    DispatchQueue.main.async {
+                        let image = UIImage(data: data)
+                        self.cardToShowImages.append(image!)
+                    }
+                }
+            }*/
+        }
+        
+    }
+    
+    
     @IBAction func likeBtnPressed(_ sender: Any) {
         kolodaView?.swipe(.right)
     }
@@ -61,16 +99,19 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func kolodaNumberOfCards(_ koloda: KolodaView) -> Int {
-        return dataSource.count
+        //return dataSource.count
+        
+        print(cardToShowImages.count)
+        return cardToShowImages.count
+
     }
     
     func koloda(_ koloda: KolodaView, viewForCardAt index: Int) -> UIView {
-        //print("index = \(index)")
-        return UIImageView(image: dataSource[index])
+        print(index)
+        return UIImageView(image: cardToShowImages[index])
     }
    
     func kolodaSpeedThatCardShouldDrag(_ koloda: KolodaView) -> DragSpeed {

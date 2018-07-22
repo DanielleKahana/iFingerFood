@@ -20,6 +20,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        DataManager.sharedDatabase.readRestsFromFirebase()
 
     }
     
@@ -35,9 +36,9 @@ class LoginViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        // [START remove_auth_listener]
+    
         Auth.auth().removeStateDidChangeListener(handle!)
-        // [END remove_auth_listener]
+
     }
     
     
@@ -45,32 +46,58 @@ class LoginViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-
+    
+    
+    func HighlightErrorTextField(textField : UITextField) {
+        textField.layer.borderColor = UIColor.red.cgColor
+        textField.layer.borderWidth = 3
+        textField.layer.cornerRadius = 5
+    }
+    
+    
+    @IBAction func passwordTextFieldEdit(_ sender: UITextField) {
+        passwordTextField.layer.borderColor = UIColor.gray.cgColor
+        passwordTextField.layer.borderWidth = 0
+        passwordTextField.layer.cornerRadius = 5
+    }
+    
+    
+    @IBAction func emailTextFieldEdit(_ sender: UITextField) {
+        emailTextField.layer.borderColor = UIColor.gray.cgColor
+        emailTextField.layer.borderWidth = 0
+        emailTextField.layer.cornerRadius = 5
+    }
     
     @IBAction func signInBtnPressed(_ sender: UIButton) {
         
-        if let email = emailTextField.text , let password = passwordTextField.text
-        {
-            SVProgressHUD.show()
+        guard let email = emailTextField.text, !email.isEmpty else {
+            HighlightErrorTextField(textField: emailTextField)
+            return
+        }
+        
+        guard let password = passwordTextField.text, !password.isEmpty else {
+            HighlightErrorTextField(textField: passwordTextField)
+            return
+        }
+        
+        
+        SVProgressHUD.show()
             
-            Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
-                SVProgressHUD.dismiss()
-                if error != nil {
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let viewController = storyboard.instantiateViewController(withIdentifier:  "MainViewController")
+        Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
+            SVProgressHUD.dismiss()
+            if error != nil {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let viewController = storyboard.instantiateViewController(withIdentifier:  "MainViewController")
                     self.navigationController?.pushViewController(viewController, animated: true)
-                }
-                else {
-                    self.view.makeToast("Couldn't sign in.. Please make sure you entered the correct email and password", duration: 4.0 , position: .bottom)
-                    print("error creating user = \(String(describing: error))")
-                }
+            }
+            else {
+                self.view.makeToast("Couldn't sign in.. Please make sure you entered the correct email and password", duration: 4.0 , position: .bottom)
+                print("error creating user = \(String(describing: error))")
+            }
                 
             })
-        } else {
-            //missing fields
-            showAlert()
         }
-        }
+    
     
     
     
@@ -88,11 +115,7 @@ class LoginViewController: UIViewController {
     }
     
     
-    func showAlert(){
-        let alert = UIAlertController(title: "Oops!", message: "Please fill out all the fields in order to sign in", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Got it", style: UIAlertActionStyle.default, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
+   
     
     
     

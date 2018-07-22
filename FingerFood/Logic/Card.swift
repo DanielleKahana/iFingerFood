@@ -8,7 +8,13 @@
 
 import Foundation
 
-class Card {
+class Card : Hashable{
+    var hashValue: Int {
+        return cardID.hashValue
+    }
+    
+   
+    
     private var cardID : String
     private var restID : String
     private var restName : String
@@ -31,4 +37,12 @@ class Card {
         self.cardID = id
     }
     
+    func getCardURL() -> URL {
+        let url = URL(string: self.imageURL.trimmingCharacters(in: .whitespaces))
+        return url!
+    }
+    
+    static func == (lhs: Card, rhs: Card) -> Bool {
+        return lhs.cardID == rhs.cardID
+    }
 }
