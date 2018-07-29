@@ -16,28 +16,19 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var emailTextField:UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
-    var handle: AuthStateDidChangeListenerHandle?
+    private var dataHandler : DataManager? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        DataManager.sharedDatabase.readRestsFromFirebase()
+       
+        dataHandler = DataManager.getInstance()
 
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // [START auth_listener]
-        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
-            
-        }
-        // [END auth_listener]
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    
-        Auth.auth().removeStateDidChangeListener(handle!)
+        
 
     }
     
@@ -80,22 +71,40 @@ class LoginViewController: UIViewController {
             return
         }
         
+        let regex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let pred = NSPredicate(format: "SELF MATCHES %@", regex)
+        
+        if !pred.evaluate(with: email) || password.count < 6 {
+            self.view.makeToast("email or password inccorect!", duration: 3.0 , position: .bottom)
+            return
+        }
+        
         
         SVProgressHUD.show()
             
         Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
             SVProgressHUD.dismiss()
             if error != nil {
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let viewController = storyboard.instantiateViewController(withIdentifier:  "MainViewController")
-                    self.navigationController?.pushViewController(viewController, animated: true)
+                self.view.makeToast("Couldn't sign in.. Please make sure you entered the right email and password", duration: 4.0 , position: .bottom)
+                print("error creating user = \(String(describing: error))")
             }
             else {
-                self.view.makeToast("Couldn't sign in.. Please make sure you entered the correct email and password", duration: 4.0 , position: .bottom)
-                print("error creating user = \(String(describing: error))")
+                if user?.user.uid != nil {
+                    let userId = user!.user.uid
+                    self.dataHandler?.readUserLikesFromFirebase(userId: userId)
+                    
+                    let _ = UserData.getInstance()
+                    
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let viewController = storyboard.instantiateViewController(withIdentifier:  "MainViewController")
+                    self.navigationController?.pushViewController(viewController, animated: true)
+                }
+                
             }
                 
             })
+       
+        
         }
     
     

@@ -37,6 +37,18 @@ class Card : Hashable{
         self.cardID = id
     }
     
+    func getRestName() -> String {
+        return restName
+    }
+    
+    func getRestId() -> String {
+        return restID
+    }
+    
+    func getImageURL() -> String {
+        return imageURL
+    }
+    
     func getCardURL() -> URL {
         let url = URL(string: self.imageURL.trimmingCharacters(in: .whitespaces))
         return url!

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04787064210744C7004C0385 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04787063210744C7004C0385 /* UserData.swift */; };
 		047AEB022101EA5D000CE265 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 047AEB012101EA5D000CE265 /* GoogleService-Info.plist */; };
 		048325AD20FF9544007BBBFC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048325AC20FF9544007BBBFC /* AppDelegate.swift */; };
 		048325B220FF9544007BBBFC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048325B020FF9544007BBBFC /* Main.storyboard */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04787063210744C7004C0385 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		047AEB012101EA5D000CE265 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		048325A920FF9544007BBBFC /* FingerFood.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FingerFood.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		048325AC20FF9544007BBBFC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 			children = (
 				04977A3921034F7B002B5FB9 /* Restaurant.swift */,
 				04977A3B21034F91002B5FB9 /* Card.swift */,
+				04787063210744C7004C0385 /* UserData.swift */,
 			);
 			path = Logic;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 				04977A3521034965002B5FB9 /* DataManager.swift in Sources */,
 				048325D420FF9AB1007BBBFC /* ForgotPasswordViewController.swift in Sources */,
 				048325CD20FF9747007BBBFC /* RegisterViewController.swift in Sources */,
+				04787064210744C7004C0385 /* UserData.swift in Sources */,
 				048325AD20FF9544007BBBFC /* AppDelegate.swift in Sources */,
 				048325D120FF975E007BBBFC /* ProfileViewController.swift in Sources */,
 				048325C920FF96F3007BBBFC /* MainViewController.swift in Sources */,

@@ -30,17 +30,10 @@ class RegisterViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        createGradientBackground()
+       
     }
     
-    func createGradientBackground() {
-        let background = CAGradientLayer()
-        background.frame = self.view.bounds
-        let startColor = UIColor(red: 27/255, green: 51/255 , blue: 89/255 , alpha: 1)
-        let endColor = UIColor.white
-        background.colors = [startColor.cgColor, endColor.cgColor]
-        self.view.layer.insertSublayer(background, at: 0)
-    }
+  
     
 
     @IBAction func registerBtnPressed(_ sender: Any) {
@@ -66,17 +59,36 @@ class RegisterViewController: UIViewController {
             HighlightErrorTextField(textField: passwordTextField)
             return
         }
+        
+        let regex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let pred = NSPredicate(format: "SELF MATCHES %@", regex)
+        
+        
+        if !pred.evaluate(with: email) {
+            self.view.makeToast("email is in bad format!", duration: 3.0 , position: .bottom)
+            HighlightErrorTextField(textField: emailTextField)
+            return
+        }
+        
+        if  password.count < 6 {
+            self.view.makeToast("password must be longer then 6 characters!", duration: 3.0 , position: .bottom)
+            HighlightErrorTextField(textField: passwordTextField)
+            return
+        }
+        
+       
         SVProgressHUD.show()
         
         Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
             SVProgressHUD.dismiss()
             if error != nil {
-                print("registered successfully!")
-                self.showWelcomeMessage()
-            }
-            else {
                 self.view.makeToast("Couldn't create user.. Please make sure you entered a valid details", duration: 4.0 , position: .bottom)
                 print("error creating user = \(String(describing: error))")
+                
+            }
+            else {
+                print("unable to register")
+                self.showWelcomeMessage()
             }
            
         })

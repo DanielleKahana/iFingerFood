@@ -10,8 +10,14 @@ import UIKit
 
 class ProfileViewController: UIViewController {
 
+    @IBOutlet weak var usernameLabel: UILabel!
+    
+    private var userData : UserData? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        userData = UserData.getInstance()
 
         // Do any additional setup after loading the view.
     }
@@ -24,17 +30,18 @@ class ProfileViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        createGradientBackground()
     }
     
-    func createGradientBackground() {
-        let background = CAGradientLayer()
-        background.frame = self.view.bounds
-        let startColor = UIColor(red: 27/255, green: 51/255 , blue: 89/255 , alpha: 1)
-        let endColor = UIColor.white
-        background.colors = [startColor.cgColor, endColor.cgColor]
-        self.view.layer.insertSublayer(background, at: 0)
+    func setUserName() {
+        if let name = userData?.getUsername() {
+            usernameLabel.text = name
+        }else {
+            print("error getting name")
+        }
+        
     }
+    
+    
   
 
 }

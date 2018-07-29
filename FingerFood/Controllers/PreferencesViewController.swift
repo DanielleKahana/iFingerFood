@@ -8,41 +8,57 @@
 
 import UIKit
 
-class PreferencesViewController: UIViewController {
+class PreferencesViewController: UIViewController, UIPickerViewDelegate , UIPickerViewDataSource {
+  
 
+    @IBOutlet weak var pricePicker: UIPickerView!
+    
+    let prices = ["All" , "$", "$$" ,"$$$", "$$$$"]
+    var priceChosen : Int!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        pricePicker.delegate = self
+        pricePicker.dataSource = self
+        priceChosen = 0
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        createGradientBackground()
     }
     
-    func createGradientBackground() {
-        let background = CAGradientLayer()
-        background.frame = self.view.bounds
-        let startColor = UIColor(red: 245/255, green: 245/255 , blue: 220/255 , alpha: 1)
-        let endColor = UIColor(red: 247/255, green: 247/255 , blue: 227/255 , alpha: 1)
-        background.colors = [startColor.cgColor, endColor.cgColor]
-        self.view.layer.insertSublayer(background, at: 0)
+    
+    
+    
+    @IBAction func applyBtnPressed(_ sender: Any) {
+        
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    @IBAction func cancelBtnPressed(_ sender: Any) {
     }
-    */
+    
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return prices.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return prices[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        print(row)
+        priceChosen = row
+    }
 
 }
