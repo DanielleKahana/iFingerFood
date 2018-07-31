@@ -10,6 +10,8 @@ import UIKit
 
 class ProfileViewController: UIViewController , UICollectionViewDelegate , UICollectionViewDataSource {
    
+    @IBOutlet weak var numOfDishesLabel: UILabel!
+    @IBOutlet weak var numOfRestsLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var usernameLabel: UILabel!
     
@@ -36,6 +38,7 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
         allRests = (dataHandler?.getAllRestaurants())!
         
         setUserName()
+        setStatus()
         setCardsToImages()
         
     }
@@ -59,6 +62,12 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
         }
     }
     
+    func setStatus(){
+        let numOfLikedRest = getNumOfLikesRest()
+        numOfRestsLabel.text  = String(numOfLikedRest)
+        numOfDishesLabel.text = String(likedCards.count)
+    }
+    
     func setCardsToImages() {
         
         for card in likedCards {
@@ -67,6 +76,16 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
             let image = UIImage(data: data!)
             likedCardsImages.append(image!)
         }
+    }
+    
+    
+    func getNumOfLikesRest() -> Int{
+        var set = Set<String>()
+        
+        for card in likedCards {
+            set.insert(card.getRestId())
+        }
+        return set.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

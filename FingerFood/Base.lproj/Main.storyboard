@@ -617,6 +617,8 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="bK9-SL-gxK" id="qb5-wC-dHo"/>
+                        <outlet property="numOfDishesLabel" destination="4tU-xD-K8j" id="i8C-Xn-dnh"/>
+                        <outlet property="numOfRestsLabel" destination="6AU-93-pYn" id="4EW-kE-TEQ"/>
                         <outlet property="usernameLabel" destination="bVg-a2-pCB" id="4g7-nc-M2C"/>
                     </connections>
                 </viewController>
