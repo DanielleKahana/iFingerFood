@@ -19,9 +19,13 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
+    private var dataHandler: DataManager? = nil
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        dataHandler = DataManager.getInstance()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,11 +34,27 @@ class RegisterViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-       
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+        let emailImage = UIImage(named: "mail")
+        addLeftImageToTextField(txtField: emailTextField, image: emailImage!)
+        
+        let lockImage = UIImage(named: "lock")
+        addLeftImageToTextField(txtField: passwordTextField, image: lockImage!)
+        
+        let profileImage = UIImage(named: "mail")
+        addLeftImageToTextField(txtField: firstNameTextField, image: profileImage!)
+        addLeftImageToTextField(txtField: lastNameTextField, image: profileImage!)
+        
     }
     
   
-    
+    func addLeftImageToTextField(txtField : UITextField , image : UIImage) {
+        let leftImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        leftImage.image = image
+        txtField.leftView = leftImage
+        txtField.leftViewMode = .always
+    }
 
     @IBAction func registerBtnPressed(_ sender: Any) {
         removeHighlightFromAllTextFields()
@@ -87,7 +107,8 @@ class RegisterViewController: UIViewController {
                 
             }
             else {
-                print("unable to register")
+                let userId = user?.user.uid
+                self.dataHandler?.addNewUserToData(uid: userId!, firstName: firstName, lastName: LastName)
                 self.showWelcomeMessage()
             }
            
@@ -95,6 +116,12 @@ class RegisterViewController: UIViewController {
     }
     
    
+    @IBAction func backBtnPressed(_ sender: Any) {
+        self.navigationController?.popToRootViewController(animated: true)
+        
+    }
+    
+    
     
     func HighlightErrorTextField(textField : UITextField) {
         textField.layer.borderColor = UIColor.red.cgColor

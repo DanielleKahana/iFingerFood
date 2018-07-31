@@ -18,12 +18,15 @@ class ForgotPasswordViewController: UIViewController {
         super.viewDidLoad()
     }
 
+ 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+
     }
     
     
@@ -59,6 +62,9 @@ class ForgotPasswordViewController: UIViewController {
         
     }
     
+    @IBAction func backBtnPressed(_ sender: Any) {
+        self.navigationController?.popToRootViewController(animated: true)
+    }
  
     
 

@@ -17,7 +17,8 @@ private var numOfCards : Int = 5
 class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDelegate {
     
 
-
+    @IBOutlet weak var restLabel: UILabel!
+    
     @IBOutlet weak var kolodaView: KolodaView!
     
   
@@ -28,31 +29,34 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
     private var allEligbleCards : [Card] = []
     private var cardToShowImages : [UIImage] = []
     private var cardsToShow : [Card] = []
-    private var userData : UserData? = nil
+    private var userHandler : User? = nil
     private var dataHandler : DataManager? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        userData = UserData.getInstance()
+        userHandler = User.getInstance()
         dataHandler = DataManager.getInstance()
         
         allRestaurants = (dataHandler?.getAllRestaurants())!
-        //allLikedCards = (userData?.getAllLikes())!
         
+        allLikedCards = (userHandler?.getAllLikes())!
         setCardToShow()
-        
+ 
         kolodaView.dataSource = self
         kolodaView.delegate = self
         self.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
   
     }
     
-   
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
     
-  
+    
     func isEligble(restaurant : Restaurant) -> Bool {
-        if allEligbleCards.count >  3 {
+        if allEligbleCards.count >  15 {
         return false
         }
         else {
@@ -85,7 +89,7 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
             }
         }
         
-        allLikedCards = (userData?.getAllLikes())!
+        
         let cardsToRemove = Set(allLikedCards)
         cardsToShow = Array(Set(allEligbleCards).subtracting(cardsToRemove))
         
@@ -95,47 +99,19 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
         print("all cardsToRemove = \(cardsToRemove.count)")
          print("all cardstoshow = \(cardsToShow.count)")
         
-        //if cardsToShow.count < 5 {
+    
         
             for card in cardsToShow {
                 let url = card.getCardURL()
                 let data = try? Data(contentsOf: url)
                 let image = UIImage(data: data!)
                 self.cardToShowImages.append(image!)
+                
             }
         
         print("all cardstoshowImage = \(cardToShowImages.count)")
-        //}
-            
-       /* else {
-            loadTopNCards(n: 5)
-            
-            //load rest of cards asynchrony
-            for card in cardsToShow.dropFirst(5) {
-                let url = card.getCardURL()
-                URLSession.shared.dataTask(with: url) {
-                    data,response, error in
-                    if error == nil {
-                        let image = UIImage(data: data!)
-                        self.cardToShowImages.append(image!)
-                    }
-                    }.resume()
-            }
-    }*/
+        
     }
-    
-    func loadTopNCards(n : Int) {
-        for card in cardsToShow.dropFirst(cardsToShow.count - n) {
-            let url = card.getCardURL()
-            if let data = try? Data(contentsOf: url) {
-                let image = UIImage(data: data)
-                self.cardToShowImages.append(image!)
-            }
-        }
-    }
-    
-    
-    
     
    
     @IBAction func likeBtnPressed(_ sender: Any) {
@@ -148,9 +124,6 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
         print(cardsToShow[index].getRestName())
     }
     
-    func saveCardToLikes(card : Card) {
-        
-    }
     
     
     @IBAction func disslikeBtnPressed(_ sender: Any) {
@@ -170,6 +143,8 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
     }
     
     func koloda(_ koloda: KolodaView, viewForCardAt index: Int) -> UIView {
+        print("card Index in koloda \(index)")
+        restLabel.text = cardsToShow[index].getRestName()
         return UIImageView(image: cardToShowImages[index])
     }
    
@@ -194,7 +169,7 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
            
         case .right:
             let card = cardsToShow[koloda.currentCardIndex-1]
-            userData?.addCardToLikes(card: card)
+            userHandler?.addCardToLikes(card: card)
             //remove from images array and from card to show array
             
         

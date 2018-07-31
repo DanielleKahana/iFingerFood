@@ -10,26 +10,43 @@ import UIKit
 import Firebase
 import FirebaseAuth
 import SVProgressHUD
+import CoreLocation
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController , CLLocationManagerDelegate {
 
     @IBOutlet weak var emailTextField:UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
     private var dataHandler : DataManager? = nil
+
+    //default values - afeka tel aviv
+    var latitude : Double = 32.1111
+    var longitude : Double = 31.1111
+ 
+    let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
        
         dataHandler = DataManager.getInstance()
-
+        
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+     
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
         
-
+        let emailImage = UIImage(named: "mail")
+        addLeftImageToTextField(txtField: emailTextField, image: emailImage!)
+        
+        let lockImage = UIImage(named: "lock")
+        addLeftImageToTextField(txtField: passwordTextField, image: lockImage!)
     }
     
     
@@ -45,6 +62,12 @@ class LoginViewController: UIViewController {
         textField.layer.cornerRadius = 5
     }
     
+    func addLeftImageToTextField(txtField : UITextField , image : UIImage) {
+        let leftImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        leftImage.image = image
+        txtField.leftView = leftImage
+        txtField.leftViewMode = .always
+    }
     
     @IBAction func passwordTextFieldEdit(_ sender: UITextField) {
         passwordTextField.layer.borderColor = UIColor.gray.cgColor
@@ -90,24 +113,23 @@ class LoginViewController: UIViewController {
             }
             else {
                 if user?.user.uid != nil {
-                    let userId = user!.user.uid
-                    self.dataHandler?.readUserLikesFromFirebase(userId: userId)
+                 
+                    let u = User.getInstance()
+                    print("lat = \(self.latitude) , long = \(self.longitude)")
                     
-                    let _ = UserData.getInstance()
-                    
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let viewController = storyboard.instantiateViewController(withIdentifier:  "MainViewController")
-                    self.navigationController?.pushViewController(viewController, animated: true)
+                    self.goToMainVC()
                 }
-                
             }
-                
             })
-       
-        
         }
     
     
+    func goToMainVC() {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let viewController = storyboard.instantiateViewController(withIdentifier:  "MainViewController")
+            self.navigationController?.pushViewController(viewController, animated: true)
+        }
+      
     
     
     @IBAction func forgotPasswordBtnPressed(_ sender: Any) {
@@ -123,11 +145,36 @@ class LoginViewController: UIViewController {
         navigationController?.pushViewController(viewController, animated: true)
     }
     
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location = locations[locations.count - 1]
+        if location.horizontalAccuracy > 0 {
+            locationManager.stopUpdatingLocation()
+        
+            print("longitude = \(location.coordinate.longitude) , latitude = \(location.coordinate.latitude) ")
+            
+            latitude = location.coordinate.latitude
+            longitude = location.coordinate.longitude
+        }
+    }
     
-   
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
+        self.view.makeToast("Location Unavailable")
+    }
     
     
-    
-
-
 }
+
+
+
+extension UITextField{
+    @IBInspectable var placeholderColor: UIColor? {
+        get {
+            return self.placeholderColor
+        }
+        set {
+            self.attributedPlaceholder = NSAttributedString(string: self.placeholder != nil ? self.placeholder! : "", attributes: [NSAttributedStringKey.foregroundColor: newValue!])
+        }
+    }
+}
+

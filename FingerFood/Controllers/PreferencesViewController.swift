@@ -30,6 +30,7 @@ class PreferencesViewController: UIViewController, UIPickerViewDelegate , UIPick
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
     
@@ -40,6 +41,7 @@ class PreferencesViewController: UIViewController, UIPickerViewDelegate , UIPick
     }
     
     @IBAction func cancelBtnPressed(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
     }
     
     

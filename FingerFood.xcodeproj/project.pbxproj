@@ -7,11 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		04787064210744C7004C0385 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04787063210744C7004C0385 /* UserData.swift */; };
+		04787064210744C7004C0385 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04787063210744C7004C0385 /* User.swift */; };
 		047AEB022101EA5D000CE265 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 047AEB012101EA5D000CE265 /* GoogleService-Info.plist */; };
 		048325AD20FF9544007BBBFC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048325AC20FF9544007BBBFC /* AppDelegate.swift */; };
 		048325B220FF9544007BBBFC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048325B020FF9544007BBBFC /* Main.storyboard */; };
-		048325B420FF9544007BBBFC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 048325B320FF9544007BBBFC /* Assets.xcassets */; };
 		048325B720FF9544007BBBFC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048325B520FF9544007BBBFC /* LaunchScreen.storyboard */; };
 		048325C920FF96F3007BBBFC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048325C820FF96F3007BBBFC /* MainViewController.swift */; };
 		048325CB20FF973C007BBBFC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048325CA20FF973C007BBBFC /* LoginViewController.swift */; };
@@ -22,16 +21,17 @@
 		04977A3521034965002B5FB9 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04977A3421034965002B5FB9 /* DataManager.swift */; };
 		04977A3A21034F7B002B5FB9 /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04977A3921034F7B002B5FB9 /* Restaurant.swift */; };
 		04977A3C21034F91002B5FB9 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04977A3B21034F91002B5FB9 /* Card.swift */; };
+		04BEA66C210FA30400C6A412 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04BEA66B210FA30300C6A412 /* Assets.xcassets */; };
+		04C06FEC210F5BC400C6C912 /* CardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C06FEB210F5BC400C6C912 /* CardViewCell.swift */; };
 		F573DD1D59876C2B49536938 /* Pods_FingerFood.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ABB1053E2DA2BF0B9DC323 /* Pods_FingerFood.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		04787063210744C7004C0385 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		04787063210744C7004C0385 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		047AEB012101EA5D000CE265 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		048325A920FF9544007BBBFC /* FingerFood.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FingerFood.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		048325AC20FF9544007BBBFC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		048325B120FF9544007BBBFC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		048325B320FF9544007BBBFC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		048325B620FF9544007BBBFC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		048325B820FF9544007BBBFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		048325C820FF96F3007BBBFC /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -43,6 +43,8 @@
 		04977A3421034965002B5FB9 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		04977A3921034F7B002B5FB9 /* Restaurant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
 		04977A3B21034F91002B5FB9 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		04BEA66B210FA30300C6A412 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		04C06FEB210F5BC400C6C912 /* CardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewCell.swift; sourceTree = "<group>"; };
 		17ABB1053E2DA2BF0B9DC323 /* Pods_FingerFood.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FingerFood.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		89A856A56AFF0CD7A0FABACD /* Pods-FingerFood.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FingerFood.release.xcconfig"; path = "Pods/Target Support Files/Pods-FingerFood/Pods-FingerFood.release.xcconfig"; sourceTree = "<group>"; };
 		B36A373C9A76672EDD7E267E /* Pods-FingerFood.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FingerFood.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FingerFood/Pods-FingerFood.debug.xcconfig"; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 		048325A020FF9544007BBBFC = {
 			isa = PBXGroup;
 			children = (
+				04BEA66B210FA30300C6A412 /* Assets.xcassets */,
 				048325AB20FF9544007BBBFC /* FingerFood */,
 				048325AA20FF9544007BBBFC /* Products */,
 				11CC76E94FDAE521F88F5F5D /* Pods */,
@@ -84,12 +87,12 @@
 				047AEB012101EA5D000CE265 /* GoogleService-Info.plist */,
 				048325AC20FF9544007BBBFC /* AppDelegate.swift */,
 				048325B020FF9544007BBBFC /* Main.storyboard */,
-				048325B320FF9544007BBBFC /* Assets.xcassets */,
 				048325B520FF9544007BBBFC /* LaunchScreen.storyboard */,
 				048325B820FF9544007BBBFC /* Info.plist */,
 				048325D220FF9766007BBBFC /* Controllers */,
 				04977A3821034A23002B5FB9 /* Database */,
 				04977A3D21034F96002B5FB9 /* Logic */,
+				04C06FED210F5E3F00C6C912 /* Views */,
 			);
 			path = FingerFood;
 			sourceTree = "<group>";
@@ -120,9 +123,17 @@
 			children = (
 				04977A3921034F7B002B5FB9 /* Restaurant.swift */,
 				04977A3B21034F91002B5FB9 /* Card.swift */,
-				04787063210744C7004C0385 /* UserData.swift */,
+				04787063210744C7004C0385 /* User.swift */,
 			);
 			path = Logic;
+			sourceTree = "<group>";
+		};
+		04C06FED210F5E3F00C6C912 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				04C06FEB210F5BC400C6C912 /* CardViewCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		11CC76E94FDAE521F88F5F5D /* Pods */ = {
@@ -204,7 +215,7 @@
 			files = (
 				048325B720FF9544007BBBFC /* LaunchScreen.storyboard in Resources */,
 				047AEB022101EA5D000CE265 /* GoogleService-Info.plist in Resources */,
-				048325B420FF9544007BBBFC /* Assets.xcassets in Resources */,
+				04BEA66C210FA30400C6A412 /* Assets.xcassets in Resources */,
 				048325B220FF9544007BBBFC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -274,7 +285,8 @@
 				04977A3521034965002B5FB9 /* DataManager.swift in Sources */,
 				048325D420FF9AB1007BBBFC /* ForgotPasswordViewController.swift in Sources */,
 				048325CD20FF9747007BBBFC /* RegisterViewController.swift in Sources */,
-				04787064210744C7004C0385 /* UserData.swift in Sources */,
+				04787064210744C7004C0385 /* User.swift in Sources */,
+				04C06FEC210F5BC400C6C912 /* CardViewCell.swift in Sources */,
 				048325AD20FF9544007BBBFC /* AppDelegate.swift in Sources */,
 				048325D120FF975E007BBBFC /* ProfileViewController.swift in Sources */,
 				048325C920FF96F3007BBBFC /* MainViewController.swift in Sources */,

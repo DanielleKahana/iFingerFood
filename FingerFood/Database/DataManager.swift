@@ -14,21 +14,29 @@ import FirebaseAuth
 
 public class DataManager {
     
+    let USERS : String = "users"
+    let RESTAURANTS : String = "restaurants"
+
+    let LIKES : String = "likes"
+    let REST_ID : String = "restID"
+    let IMAGE_URL : String = "imageURL"
+    let REST_NAME : String = "restName"
+    let KOSHER : String = "isKosher"
+    let DELIVARY : String = "hasDelivery"
+    let LATITUDE : String = "latitude"
+    let LONGITUDE : String = "longtitude"
+    let WEBSITE : String = "website"
+    let PHONE : String = "PhoneNumber"
+    let ADDRESS : String = "Address"
+    let PRICE : String = "Price"
+    let USER_FIRST_NAME : String = "firstName"
+    let USER_LAST_NAME : String = "lastName"
+    
     private static var sharedDatabase : DataManager? = nil
-    
-   // static let sharedDatabase = DataManager()
-    let USERS = "users"
-    let RESTAURANTS = "restaurants"
-    let LIKES = "likes"
-    let REST_ID = "restID"
-    let IMAGE_URL = "imageURL"
-    let REST_NAME = "restName"
-    
     
     var restsRef : DatabaseReference
     var usersRef: DatabaseReference
-    //var userLikesRef: DatabaseReference
-    
+
     private var allRestaurants = [Restaurant]()
     private var userLikedCards = [Card]()
     //var userID : String
@@ -40,6 +48,7 @@ public class DataManager {
         usersRef = Database.database().reference().child(USERS)
         
         readRestsFromFirebase()
+        
       
     }
     
@@ -53,6 +62,7 @@ public class DataManager {
     
     func readRestsFromFirebase()  {
         if !allRestaurants.isEmpty {return}
+        
         restsRef.observe(.value, with: {(snapshot) in
             if (!snapshot.exists()) {return}
             
@@ -61,14 +71,14 @@ public class DataManager {
                     let restId = restData.key
                     if let restDict = restData.value as? [String:Any] {
                         let restName = restDict[self.REST_NAME] as! String
-                        let address = restDict["Address"] as! String
-                        let phoneNumber = restDict["PhoneNumber"] as! String
-                        let website = restDict["website"] as! String
-                        let price = restDict["Price"] as! Int
-                        let isKosher = restDict["isKosher"] as! Bool
-                        let hasDelivery = restDict["hasDelivery"] as! Bool
-                        let latitude = restDict["latitude"] as! Double
-                        let longtitude = restDict["longtitude"] as! Double
+                        let address = restDict[self.ADDRESS] as! String
+                        let phoneNumber = restDict[self.PHONE] as! String
+                        let website = restDict[self.WEBSITE] as! String
+                        let price = restDict[self.PRICE] as! Int
+                        let isKosher = restDict[self.KOSHER] as! Bool
+                        let hasDelivery = restDict[self.DELIVARY] as! Bool
+                        let latitude = restDict[self.LATITUDE] as! Double
+                        let longtitude = restDict[self.LONGITUDE] as! Double
                         
                         let rest = Restaurant(id: restId, name: restName, webSiteURL: website, phone: phoneNumber, address: address, latitude: latitude, longtitude: longtitude, isKosher: isKosher, hasDelivery: hasDelivery, price: price)
                        
@@ -91,10 +101,7 @@ public class DataManager {
         
     }
     
-    func getUsername(userId: String) -> String {
-            return "aa"
-    }
-    
+   
     
     func getAllRestaurants() -> [Restaurant] {
         return self.allRestaurants
@@ -104,10 +111,13 @@ public class DataManager {
         return self.userLikedCards
     }
     
-    func readUserLikesFromFirebase(userId : String) {
-        let userLikedCardsRef = usersRef.child(userId).child(LIKES)
+    
+
+    
+    func readUserLikesFromFirebase(userId : String){
+       if !userLikedCards.isEmpty {return}
         
-        userLikedCardsRef.observeSingleEvent(of: .value, with: {(snapshot) in
+        usersRef.child(userId).child(LIKES).observe(.value, with: {(snapshot) in
             
             if (!snapshot.exists()) {return}
             
@@ -116,6 +126,7 @@ public class DataManager {
                     let cardId = cardData.key
                     print(cardId)
                     if let cardDict = cardData.value as? [String:String] {
+                        print("LIKED cards!!!")
                          print(cardDict)
                         let restId = cardDict[self.REST_ID]
                         let imageUrl = cardDict[self.IMAGE_URL]
@@ -137,6 +148,14 @@ public class DataManager {
         usersRef.child(userId).child(LIKES).child(card.getID()).child(IMAGE_URL).setValue(card.getImageURL())
         usersRef.child(userId).child(LIKES).child(card.getID()).child(REST_NAME).setValue(card.getRestName())
         
+    }
+    
+    func addNewUserToData(uid: String , firstName : String , lastName : String) {
+        let newUserRef = usersRef.child(uid)
+        
+        newUserRef.child(USER_FIRST_NAME).setValue(firstName)
+        newUserRef.child(USER_LAST_NAME).setValue(lastName)
+        newUserRef.child(LIKES).setValue(0)
     }
     
     
