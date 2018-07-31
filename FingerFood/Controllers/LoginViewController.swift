@@ -112,9 +112,12 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
                 print("error creating user = \(String(describing: error))")
             }
             else {
+                
                 if user?.user.uid != nil {
                  
                     let u = User.getInstance()
+                    
+                    
                     print("lat = \(self.latitude) , long = \(self.longitude)")
                     
                     self.goToMainVC()

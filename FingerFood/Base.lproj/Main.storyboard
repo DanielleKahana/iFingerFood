@@ -655,14 +655,17 @@
                                 <rect key="frame" x="16" y="197" width="288" height="93"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="tMW-fX-O08">
+                                    <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="15" minValue="5" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="tMW-fX-O08">
                                         <rect key="frame" x="12" y="56" width="271" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="distanceSliderChanged:" destination="fTY-v4-jas" eventType="valueChanged" id="lBy-Tc-UHj"/>
+                                        </connections>
                                     </slider>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yHT-QP-QUK" userLabel="distText">
                                         <rect key="frame" x="0.0" y="0.0" width="288" height="65"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -677,6 +680,9 @@
                                         <rect key="frame" x="10" y="10" width="80" height="80"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="delivery"/>
+                                        <connections>
+                                            <action selector="deliveryBtnPressed:" destination="fTY-v4-jas" eventType="touchUpInside" id="fVQ-AT-6AW"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -714,6 +720,9 @@
                                 <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="back"/>
+                                <connections>
+                                    <action selector="backBtnPressed:" destination="fTY-v4-jas" eventType="touchUpInside" id="iNZ-u7-BGd"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vrG-bu-dxY" userLabel="KosherView">
                                 <rect key="frame" x="204" y="64" width="100" height="100"/>
@@ -723,6 +732,9 @@
                                         <rect key="frame" x="10" y="10" width="80" height="80"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="kosher"/>
+                                        <connections>
+                                            <action selector="kosherBtnPressed:" destination="fTY-v4-jas" eventType="touchUpInside" id="AI9-cy-f6S"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -732,7 +744,11 @@
                         <viewLayoutGuide key="safeArea" id="PNA-IQ-Wsr"/>
                     </view>
                     <connections>
+                        <outlet property="deliveryView" destination="TBq-Aa-fW0" id="chK-Zj-oEx"/>
+                        <outlet property="distanceLabel" destination="yHT-QP-QUK" id="Veg-a8-FK2"/>
+                        <outlet property="kosherView" destination="vrG-bu-dxY" id="EYv-Ve-08r"/>
                         <outlet property="pricePicker" destination="KN7-Kc-wYd" id="oQ4-6f-8D8"/>
+                        <outlet property="slider" destination="tMW-fX-O08" id="fOi-ob-lAp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="goy-95-u8w" userLabel="First Responder" sceneMemberID="firstResponder"/>

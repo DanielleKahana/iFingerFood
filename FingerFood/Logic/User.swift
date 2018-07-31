@@ -15,6 +15,7 @@ class User {
     
     let USER_FIRST_NAME : String = "firstName"
     let USER_LAST_NAME : String = "lastName"
+    let DEFAULT_PREF_DISTANCE : Int = 15
     
     private static var sharedData : User? = nil
     
@@ -24,12 +25,20 @@ class User {
     private var dataHandler : DataManager? = nil
     private var usersRef : DatabaseReference
     
+    private var prefferedDistance: Int!
+    private var deliveryPrefference: Bool!
+    private var kosherPrefferecne : Bool!
     
     private init() {
         usersRef = Database.database().reference().child("users")
         userId = Auth.auth().currentUser?.uid
         readUsername()
         setAllLikes()
+        
+        setDistance(distance: DEFAULT_PREF_DISTANCE)
+        setKosher(isKosher: false)
+        setDelivery(wantDelivery: false)
+    
     }
     
     
@@ -90,6 +99,7 @@ class User {
                     }
                 }
             })
+        
         }
     
     
@@ -97,7 +107,30 @@ class User {
         
     }
     
+    func setKosher(isKosher : Bool) {
+        kosherPrefferecne = isKosher
+    }
     
+    func setDelivery(wantDelivery : Bool) {
+        deliveryPrefference = wantDelivery
+    }
+    
+    func isUserWantKosher() -> Bool {
+        return kosherPrefferecne
+    }
+    
+    func isUserWantDelivery() -> Bool {
+        return deliveryPrefference
+        
+    }
+    
+    func getPrefferedDistance() -> Int {
+        return prefferedDistance
+    }
+    
+    func setDistance(distance : Int) {
+         prefferedDistance = distance
+    }
     
     func readUsername() {
         usersRef.child(userId).observeSingleEvent(of: .value, with: {(snapshot) in
