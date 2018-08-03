@@ -32,8 +32,8 @@ class User {
     private init() {
         usersRef = Database.database().reference().child("users")
         userId = Auth.auth().currentUser?.uid
-        readUsername()
-        setAllLikes()
+        //readUsername()
+        //setAllLikes()
         
         setDistance(distance: DEFAULT_PREF_DISTANCE)
         setKosher(isKosher: false)
@@ -68,6 +68,43 @@ class User {
         return username
     }
   
+    
+    
+    
+    func setAllLikes2(callback: @escaping () -> ()){
+        
+        likedCards = [Card]()
+        
+        if !likedCards.isEmpty {return}
+        
+        usersRef.child(userId).child("likes").observeSingleEvent(of: .value, with: {(snapshot) in
+            
+            //usersRef.child(userId).child("likes").observe(.value, with: {(snapshot) in
+            
+            if (!snapshot.exists()) {return}
+            
+            for child in snapshot.children {
+                if let cardData = child as? DataSnapshot {
+                    let cardId = cardData.key
+                    print(cardId)
+                    if let cardDict = cardData.value as? [String:String] {
+                        print("LIKED cards!!!")
+                        print(cardDict)
+                        let restId = cardDict["restID"]
+                        let imageUrl = cardDict["imageURL"]
+                        let restName = cardDict["restName"]
+                        
+                        let card : Card = Card(cardID: cardId, restID: restId!, restName: restName!, imageURL: imageUrl!)
+                        self.likedCards.append(card)
+                    }
+                }
+            }
+            callback()
+        })
+        
+    }
+    
+    
     
     
     func setAllLikes(){

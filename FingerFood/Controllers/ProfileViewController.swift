@@ -39,7 +39,7 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
         
         setUserName()
         setStatus()
-        setCardsToImages()
+        
         
     }
 
@@ -50,7 +50,7 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        likedCards = (userData?.getAllLikes())!
+        //likedCards = (userData?.getAllLikes())!
     }
     
     func setUserName() {
@@ -68,15 +68,6 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
         numOfDishesLabel.text = String(likedCards.count)
     }
     
-    func setCardsToImages() {
-        
-        for card in likedCards {
-            let url = card.getCardURL()
-            let data = try? Data(contentsOf: url)
-            let image = UIImage(data: data!)
-            likedCardsImages.append(image!)
-        }
-    }
     
     
     func getNumOfLikesRest() -> Int{
@@ -95,8 +86,8 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardViewCell
-        
-        cell.cellImage.image = likedCardsImages[indexPath.item]
+    
+        cell.cellImage.kf.setImage(with: likedCards[indexPath.item].getCardURL())
         return cell
     }
     

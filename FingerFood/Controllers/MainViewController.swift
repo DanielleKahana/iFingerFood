@@ -10,6 +10,7 @@ import UIKit
 import Koloda
 import Firebase
 import FirebaseAuth
+import Kingfisher
 
 private var numOfCards : Int = 5
 
@@ -25,28 +26,35 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
     
     private var allRestaurants : [Restaurant] = []
     private var allLikedCards : [Card] = []
-   
+    private var currentLikedCardsIndexes : [Int] = []
     private var allEligbleCards : [Card] = []
-    private var cardToShowImages : [UIImage] = []
+    //private var cardToShowImages : [UIImage] = []
     private var cardsToShow : [Card] = []
     private var userHandler : User? = nil
     private var dataHandler : DataManager? = nil
+    
+    private var threeCards : [Card] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         userHandler = User.getInstance()
         dataHandler = DataManager.getInstance()
+
+        ImageCache.default.maxMemoryCost = 5 * 1024 * 1024
         
         allRestaurants = (dataHandler?.getAllRestaurants())!
-        
         allLikedCards = (userHandler?.getAllLikes())!
+        
         setCardToShow()
+    
  
+//        kolodaView.countOfVisibleCards = 1
+      
         kolodaView.dataSource = self
         kolodaView.delegate = self
         self.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
-  
+      
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,12 +64,14 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
     
     
     func isEligble(restaurant : Restaurant) -> Bool {
+        /*
         if allEligbleCards.count >  15 {
         return false
         }
         else {
+ */
         return true
-        }
+   //     }
     }
     
     
@@ -88,44 +98,21 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
                 allEligbleCards.append(contentsOf: rest.getAllCards())
             }
         }
-        
-        
+
         let cardsToRemove = Set(allLikedCards)
         cardsToShow = Array(Set(allEligbleCards).subtracting(cardsToRemove))
         
-        print("all likedCards = \(allLikedCards.count)")
-        print("all egible = \(allEligbleCards.count)")
-        print("all rests = \(allRestaurants.count)")
-        print("all cardsToRemove = \(cardsToRemove.count)")
-         print("all cardstoshow = \(cardsToShow.count)")
-        
+       // cardsToShow.shuffle()
     
-        
-            for card in cardsToShow {
-                let url = card.getCardURL()
-                let data = try? Data(contentsOf: url)
-                let image = UIImage(data: data!)
-                self.cardToShowImages.append(image!)
-                
-            }
-        
-        print("all cardstoshowImage = \(cardToShowImages.count)")
-        
     }
+ 
+  
     
-   
     @IBAction func likeBtnPressed(_ sender: Any) {
         kolodaView?.swipe(.right)
     }
     
-    
-    func printCard(index: Int) {
-        print(cardsToShow[index].getID())
-        print(cardsToShow[index].getRestName())
-    }
-    
-    
-    
+
     @IBAction func disslikeBtnPressed(_ sender: Any) {
         kolodaView?.swipe(.left)
     }
@@ -135,18 +122,37 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
     }
     
     func kolodaNumberOfCards(_ koloda: KolodaView) -> Int {
-        return cardToShowImages.count
+        return cardsToShow.count
     }
+    
     
     func kolodaDidRunOutOfCards(_ koloda: KolodaView) {
         kolodaView.reloadData()
     }
-    
+
+    func koloda(_ koloda: KolodaView, didShowCardAt index: Int) {
+        restLabel.text = cardsToShow[index].getRestName()
+    }
+
     func koloda(_ koloda: KolodaView, viewForCardAt index: Int) -> UIView {
         print("card Index in koloda \(index)")
-        restLabel.text = cardsToShow[index].getRestName()
-        return UIImageView(image: cardToShowImages[index])
+        
+        let imageView = UIImageView()
+
+//        DispatchQueue.global().async { [weak self] in
+//            guard let url = self?.cardsToShow[index].getCardURL() else { return }
+//            guard let data = try? Data(contentsOf: url) else { return }
+//            let image = UIImage(data: data)
+//            DispatchQueue.main.async {
+//                imageView.image = image
+//            }
+//        }
+        //imageView.contentMode = .scaleAspectFill
+        imageView.kf.setImage(with: cardsToShow[index].getCardURL())
+        return imageView
+
     }
+   
    
     func kolodaSpeedThatCardShouldDrag(_ koloda: KolodaView) -> DragSpeed {
         return .default
@@ -154,9 +160,6 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
     }
     
     func koloda(_ koloda: KolodaView, didSelectCardAt index: Int) {
-        print(kolodaView.currentCardIndex)
-        print(cardsToShow[kolodaView.currentCardIndex].getID())
-        print(cardsToShow[kolodaView.currentCardIndex].getRestName())
     }
     
     
@@ -164,13 +167,20 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
         
         switch direction {
         case .left:
-            printCard(index: koloda.currentCardIndex-1)
+            print("Disliked CARD:")
+            print(cardsToShow[index].getID())
+            print(cardsToShow[index].getRestName())
+            
              //remove from images array and from card to show array
            
         case .right:
-            let card = cardsToShow[koloda.currentCardIndex-1]
-            userHandler?.addCardToLikes(card: card)
-            //remove from images array and from card to show array
+            currentLikedCardsIndexes.append(index)
+            print("LIKED CARD:")
+            print(cardsToShow[index].getID())
+            print(cardsToShow[index].getRestName())
+           
+            //userHandler?.addCardToLikes(card: cardsToShow[index])
+            
             
         
         default:
@@ -194,8 +204,23 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
         self.present(alert, animated: true)
         
     }
+    
+    func kolodaShouldApplyAppearAnimation(_ koloda: KolodaView) -> Bool {
+        return false
+    }
 
 }
-
+extension MutableCollection {
+    mutating func shuffle() {
+        let c = count
+        guard c > 1 else {return}
+        
+        for (firstUnshuffled , unshuffledCount) in zip(indices , stride(from: c, to: 1, by: -1)) {
+            let d: Int = numericCast(arc4random_uniform(numericCast(unshuffledCount)))
+            let i = index(firstUnshuffled , offsetBy: d)
+            swapAt(firstUnshuffled, i)
+        }
+    }
+}
 
 

@@ -168,6 +168,84 @@
             </objects>
             <point key="canvasLocation" x="2026.4000000000001" y="143.47826086956522"/>
         </scene>
+        <!--Network Unavailable View Controller-->
+        <scene sceneID="mEI-Rr-bPo">
+            <objects>
+                <viewController restorationIdentifier="NetworkUnavailableViewController" storyboardIdentifier="NetworkUnavailableViewController" id="MdW-ak-c8w" customClass="NetworkUnavailableViewController" customModule="FingerFood" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="o6e-7o-qWE">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="kr3-RK-AuJ">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="127"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="127" id="LgQ-3s-gOW"/>
+                                </constraints>
+                            </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Your device is currently offline. Please check your network settings in order to use FingerFood" translatesAutoresizingMaskIntoConstraints="NO" id="wOB-IP-nxn">
+                                <rect key="frame" x="0.0" y="275" width="320" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="w8d-sV-ePG"/>
+                                </constraints>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Internet Connection" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sil-rG-eI0">
+                                <rect key="frame" x="0.0" y="222" width="320" height="53"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="53" id="cdZ-zR-0Vh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="internetError-8" translatesAutoresizingMaskIntoConstraints="NO" id="b7s-bf-TKt">
+                                <rect key="frame" x="67" y="127" width="186" height="95"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="95" id="BzH-tq-Jpv"/>
+                                    <constraint firstAttribute="width" secondItem="b7s-bf-TKt" secondAttribute="height" multiplier="186:95" id="S4u-w9-XBr"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1PI-EI-O2z">
+                                <rect key="frame" x="62" y="403" width="196" height="48"/>
+                                <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.86274509799999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="pTE-p1-hWo"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Retry">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="retryBtnPressed:" destination="MdW-ak-c8w" eventType="touchUpInside" id="LuG-ue-BLA"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.10588235294117647" green="0.20000000000000001" blue="0.34901960784313724" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="wOB-IP-nxn" firstAttribute="leading" secondItem="9k3-en-Hvp" secondAttribute="leading" id="1YW-ia-bo6"/>
+                            <constraint firstItem="sil-rG-eI0" firstAttribute="leading" secondItem="9k3-en-Hvp" secondAttribute="leading" id="1ga-wX-xT9"/>
+                            <constraint firstItem="kr3-RK-AuJ" firstAttribute="top" secondItem="o6e-7o-qWE" secondAttribute="top" id="5eY-f2-Lxq"/>
+                            <constraint firstItem="1PI-EI-O2z" firstAttribute="top" secondItem="wOB-IP-nxn" secondAttribute="bottom" id="8nT-TA-YkD"/>
+                            <constraint firstItem="kr3-RK-AuJ" firstAttribute="leading" secondItem="9k3-en-Hvp" secondAttribute="leading" id="HTc-wN-nTx"/>
+                            <constraint firstItem="b7s-bf-TKt" firstAttribute="top" secondItem="kr3-RK-AuJ" secondAttribute="bottom" id="OWZ-A7-BDk"/>
+                            <constraint firstItem="sil-rG-eI0" firstAttribute="trailing" secondItem="9k3-en-Hvp" secondAttribute="trailing" id="abO-lX-7Oy"/>
+                            <constraint firstItem="wOB-IP-nxn" firstAttribute="trailing" secondItem="9k3-en-Hvp" secondAttribute="trailing" id="agM-r4-GiI"/>
+                            <constraint firstItem="sil-rG-eI0" firstAttribute="top" secondItem="b7s-bf-TKt" secondAttribute="bottom" id="gWy-Rp-Za7"/>
+                            <constraint firstItem="b7s-bf-TKt" firstAttribute="centerX" secondItem="o6e-7o-qWE" secondAttribute="centerX" id="jZD-JC-NAr"/>
+                            <constraint firstItem="kr3-RK-AuJ" firstAttribute="trailing" secondItem="9k3-en-Hvp" secondAttribute="trailing" id="lyM-jp-B2y"/>
+                            <constraint firstItem="9k3-en-Hvp" firstAttribute="trailing" secondItem="1PI-EI-O2z" secondAttribute="trailing" constant="62" id="nhb-Xi-Sv9"/>
+                            <constraint firstItem="wOB-IP-nxn" firstAttribute="top" secondItem="sil-rG-eI0" secondAttribute="bottom" id="q4n-qC-7gb"/>
+                            <constraint firstItem="1PI-EI-O2z" firstAttribute="leading" secondItem="9k3-en-Hvp" secondAttribute="leading" constant="62" id="x8K-Rr-PXQ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="9k3-en-Hvp"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9Vb-gQ-6bp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2025" y="861.97183098591552"/>
+        </scene>
         <!--Forgot Password View Controller-->
         <scene sceneID="csh-d8-vX3">
             <objects>
@@ -933,6 +1011,7 @@
     <resources>
         <image name="back" width="64" height="64"/>
         <image name="delivery" width="128" height="128"/>
+        <image name="internetError-8" width="512" height="512"/>
         <image name="kosher" width="128" height="128"/>
         <image name="lock" width="16" height="16"/>
         <image name="logo" width="465" height="105"/>

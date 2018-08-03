@@ -12,6 +12,7 @@ import FirebaseAuth
 import SVProgressHUD
 import CoreLocation
 
+
 class LoginViewController: UIViewController , CLLocationManagerDelegate {
 
     @IBOutlet weak var emailTextField:UITextField!
@@ -28,14 +29,28 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        dataHandler = DataManager.getInstance()
+        ConnectionManager.shared.startMonitoring()
         
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
-     
+        if ConnectionManager.shared.isNetworkAvailable {
+            dataHandler = DataManager.getInstance()
+            
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+            locationManager.requestWhenInUseAuthorization()
+            locationManager.startUpdatingLocation()
+        }
+        else {
+            goToNetworkErrorVC()
+        }
     }
+    
+
+    func goToNetworkErrorVC() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController = storyboard.instantiateViewController(withIdentifier:  "NetworkUnavailableViewController")
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,8 +69,7 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
         super.didReceiveMemoryWarning()
     }
     
-    
-    
+
     func HighlightErrorTextField(textField : UITextField) {
         textField.layer.borderColor = UIColor.red.cgColor
         textField.layer.borderWidth = 3
@@ -84,6 +98,8 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
     
     @IBAction func signInBtnPressed(_ sender: UIButton) {
         
+        if ConnectionManager.shared.isNetworkAvailable == false  { goToNetworkErrorVC() }
+        
         guard let email = emailTextField.text, !email.isEmpty else {
             HighlightErrorTextField(textField: emailTextField)
             return
@@ -106,25 +122,42 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
         SVProgressHUD.show()
             
         Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
-            SVProgressHUD.dismiss()
+            
             if error != nil {
+                SVProgressHUD.dismiss()
                 self.view.makeToast("Couldn't sign in.. Please make sure you entered the right email and password", duration: 4.0 , position: .bottom)
                 print("error creating user = \(String(describing: error))")
             }
             else {
                 
                 if user?.user.uid != nil {
-                 
+                    self.dataHandler = DataManager.getInstance()
+                    
+                    /*
+                    dataHandler.readData(callback: {
+                        
+                    })
+                    
+                    */
                     let u = User.getInstance()
                     
+                    u.readUsername()
                     
                     print("lat = \(self.latitude) , long = \(self.longitude)")
+
+                    u.setAllLikes2(callback: {
+                        SVProgressHUD.dismiss()
+                        self.goToMainVC()
+                    })
                     
-                    self.goToMainVC()
+                    
+                    
                 }
             }
             })
         }
+    
+    
     
     
     func goToMainVC() {
