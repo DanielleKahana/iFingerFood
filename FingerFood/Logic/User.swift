@@ -12,10 +12,9 @@ import Firebase
 import FirebaseDatabase
 
 class User {
-    
-    let USER_FIRST_NAME : String = "firstName"
-    let USER_LAST_NAME : String = "lastName"
+
     let DEFAULT_PREF_DISTANCE : Int = 15
+    let DEFAULT_PREF_PRICE : Int = 0
     
     private static var sharedData : User? = nil
     
@@ -23,18 +22,18 @@ class User {
     private var username : String!
     private var likedCards : [Card]!
     private var dataHandler : DataManager? = nil
-    private var usersRef : DatabaseReference
     
+    private var latitude : Double!
+    private var longitude : Double!
+    private var prefferedPrice : Int!
     private var prefferedDistance: Int!
     private var deliveryPrefference: Bool!
     private var kosherPrefferecne : Bool!
     
     private init() {
-        usersRef = Database.database().reference().child("users")
-        userId = Auth.auth().currentUser?.uid
-        //readUsername()
-        //setAllLikes()
+        dataHandler = DataManager.getInstance()
         
+        setPrice(prefferedPrice: DEFAULT_PREF_PRICE)
         setDistance(distance: DEFAULT_PREF_DISTANCE)
         setKosher(isKosher: false)
         setDelivery(wantDelivery: false)
@@ -63,85 +62,20 @@ class User {
     }
     
    
+    func setUserID(userId : String) {
+        self.userId = userId
+    }
     
     func getUsername() -> String {
         return username
     }
   
-    
-    
-    
-    func setAllLikes2(callback: @escaping () -> ()){
-        
-        likedCards = [Card]()
-        
-        if !likedCards.isEmpty {return}
-        
-        usersRef.child(userId).child("likes").observeSingleEvent(of: .value, with: {(snapshot) in
-            
-            //usersRef.child(userId).child("likes").observe(.value, with: {(snapshot) in
-            
-            if (!snapshot.exists()) {return}
-            
-            for child in snapshot.children {
-                if let cardData = child as? DataSnapshot {
-                    let cardId = cardData.key
-                    print(cardId)
-                    if let cardDict = cardData.value as? [String:String] {
-                        print("LIKED cards!!!")
-                        print(cardDict)
-                        let restId = cardDict["restID"]
-                        let imageUrl = cardDict["imageURL"]
-                        let restName = cardDict["restName"]
-                        
-                        let card : Card = Card(cardID: cardId, restID: restId!, restName: restName!, imageURL: imageUrl!)
-                        self.likedCards.append(card)
-                    }
-                }
-            }
-            callback()
-        })
-        
+    func setLikedCards(cards : [Card]) {
+        self.likedCards = cards
     }
     
-    
-    
-    
-    func setAllLikes(){
-     
-        likedCards = [Card]()
-        
-        if !likedCards.isEmpty {return}
-    
-        usersRef.child(userId).child("likes").observeSingleEvent(of: .value, with: {(snapshot) in
-        
-        //usersRef.child(userId).child("likes").observe(.value, with: {(snapshot) in
-                
-                if (!snapshot.exists()) {return}
-                
-                for child in snapshot.children {
-                    if let cardData = child as? DataSnapshot {
-                        let cardId = cardData.key
-                        print(cardId)
-                        if let cardDict = cardData.value as? [String:String] {
-                            print("LIKED cards!!!")
-                            print(cardDict)
-                            let restId = cardDict["restID"]
-                            let imageUrl = cardDict["imageURL"]
-                            let restName = cardDict["restName"]
-                            
-                            let card : Card = Card(cardID: cardId, restID: restId!, restName: restName!, imageURL: imageUrl!)
-                            self.likedCards.append(card)
-                        }
-                    }
-                }
-            })
-        
-        }
-    
-    
     func removeCardFromLikes(card: Card) {
-        
+        dataHandler?.removeCardFromLikes(userId: userId , card: card) 
     }
     
     func setKosher(isKosher : Bool) {
@@ -150,6 +84,31 @@ class User {
     
     func setDelivery(wantDelivery : Bool) {
         deliveryPrefference = wantDelivery
+    }
+    
+    func setLocation(latitude : Double , longitude : Double) {
+        self.latitude = latitude
+        self.longitude = longitude
+    }
+    
+    func setPrice(prefferedPrice : Int ) {
+        self.prefferedPrice = prefferedPrice
+    }
+    
+    func setDistance(distance : Int) {
+        prefferedDistance = distance
+    }
+    
+    func setUserName(username: String) {
+        self.username = username
+    }
+
+    func getLatitude() -> Double {
+        return latitude
+    }
+    
+    func getLongitude() -> Double {
+        return longitude
     }
     
     func isUserWantKosher() -> Bool {
@@ -165,22 +124,9 @@ class User {
         return prefferedDistance
     }
     
-    func setDistance(distance : Int) {
-         prefferedDistance = distance
+    func getPrefferedPrice() -> Int {
+        return prefferedPrice
     }
-    
-    func readUsername() {
-        usersRef.child(userId).observeSingleEvent(of: .value, with: {(snapshot) in
-            if (!snapshot.exists()) {return}
-            
-            let firstname = snapshot.childSnapshot(forPath: self.USER_FIRST_NAME).value as! String
-            let lastname = snapshot.childSnapshot(forPath: self.USER_LAST_NAME).value as! String
-            
-            self.username = firstname + " " + lastname
-        })
-    }
-    
- 
     
     func getAllLikes() -> [Card] {
         return likedCards

@@ -19,16 +19,17 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
     @IBOutlet weak var passwordTextField: UITextField!
     
     private var dataHandler : DataManager? = nil
-
+    
     //default values - afeka tel aviv
-    var latitude : Double = 32.1111
-    var longitude : Double = 31.1111
+    var latitude : Double = 32.113619
+    var longitude : Double = 34.818165
  
     let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        User.getInstance().setLocation(latitude: self.latitude, longitude: self.longitude)
+        
         ConnectionManager.shared.startMonitoring()
         
         if ConnectionManager.shared.isNetworkAvailable {
@@ -117,10 +118,8 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
             self.view.makeToast("email or password inccorect!", duration: 3.0 , position: .bottom)
             return
         }
-        
-        
         SVProgressHUD.show()
-            
+
         Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
             
             if error != nil {
@@ -130,44 +129,27 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
             }
             else {
                 
-                if user?.user.uid != nil {
+                if let userId = user?.user.uid {
+                    User.getInstance().setUserID(userId: userId)
                     self.dataHandler = DataManager.getInstance()
-                    
-                    /*
-                    dataHandler.readData(callback: {
-                        
+                    self.dataHandler?.readUserName(userId: userId)
+                    self.dataHandler?.readData(userId: userId, callback: {
+                    SVProgressHUD.dismiss()
+                    self.goToMainVC()
                     })
-                    
-                    */
-                    let u = User.getInstance()
-                    
-                    u.readUsername()
-                    
                     print("lat = \(self.latitude) , long = \(self.longitude)")
-
-                    u.setAllLikes2(callback: {
-                        SVProgressHUD.dismiss()
-                        self.goToMainVC()
-                    })
-                    
-                    
                     
                 }
             }
             })
         }
-    
-    
-    
-    
+
     func goToMainVC() {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let viewController = storyboard.instantiateViewController(withIdentifier:  "MainViewController")
             self.navigationController?.pushViewController(viewController, animated: true)
         }
-      
-    
-    
+  
     @IBAction func forgotPasswordBtnPressed(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewController(withIdentifier:  "ForgotPasswordViewController")
@@ -190,6 +172,8 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
             
             latitude = location.coordinate.latitude
             longitude = location.coordinate.longitude
+            User.getInstance().setLocation(latitude: latitude, longitude: longitude)
+
         }
     }
     

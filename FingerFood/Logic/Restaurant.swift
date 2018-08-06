@@ -46,6 +46,46 @@ class Restaurant{
         return cardList
     }
     
+    func getIsKosher() -> Bool {
+        return isKosher
+    }
+    
+    func getHasDelivery() -> Bool {
+        return self.hasDelivery
+    }
+    
+    func getName() -> String {
+        return name
+    }
+    
+    func getId() -> String {
+        return id
+    }
+    
+    func getWebsiteUrl() -> String {
+        return webSiteURL
+    }
+    
+    func getPhone() -> String {
+        return phone
+    }
+    
+    func getAddress() -> String {
+        return address
+    }
+    
+    func getLatitude() -> Double {
+        return latitude
+    }
+    
+    func getLongitude() -> Double {
+        return longtitude
+    }
+    
+    func getPrice() -> Int {
+        return price
+    }
+    
  
     
 }

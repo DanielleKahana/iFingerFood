@@ -33,12 +33,12 @@ class PreferencesViewController: UIViewController, UIPickerViewDelegate , UIPick
         pricePicker.delegate = self
         pricePicker.dataSource = self
         
-        priceChosen = 0
         isKosherChecked = user?.isUserWantKosher()
         hasDeliveryChecked = user?.isUserWantDelivery()
-       // pricePreffernce = user?.getPricePrefference()
+        priceChosen = user?.getPrefferedPrice()
         distanceValue = user?.getPrefferedDistance()
         
+        setPicker(value: priceChosen)
         setDistanceText(dist: distanceValue!)
         toggleDeliveryView(hasDelivery: hasDeliveryChecked!)
         toggleKosherView(hasKosher: isKosherChecked!)
@@ -61,6 +61,9 @@ class PreferencesViewController: UIViewController, UIPickerViewDelegate , UIPick
         setDistanceText(dist: distanceValue)
     }
     
+    func setPicker(value : Int) {
+            pricePicker.selectRow(value, inComponent: 0, animated: true)
+    }
     
     func setDistanceText(dist : Int) {
         let distanceText = "Restaurants \(String(dist)) Kilometers from you!"
@@ -80,9 +83,9 @@ class PreferencesViewController: UIViewController, UIPickerViewDelegate , UIPick
         if user?.getPrefferedDistance() != distanceValue {
             user?.setDistance(distance: distanceValue)
         }
+        user?.setPrice(prefferedPrice: priceChosen)
         
         self.navigationController?.popViewController(animated: true)
-
     }
     
     @IBAction func cancelBtnPressed(_ sender: Any) {
@@ -101,8 +104,8 @@ class PreferencesViewController: UIViewController, UIPickerViewDelegate , UIPick
     
   
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return prices[row]
-    }
+            return prices[row]
+        }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         print(row)

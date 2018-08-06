@@ -16,7 +16,6 @@ public class DataManager {
     
     let USERS : String = "users"
     let RESTAURANTS : String = "restaurants"
-
     let LIKES : String = "likes"
     let REST_ID : String = "restID"
     let IMAGE_URL : String = "imageURL"
@@ -36,20 +35,17 @@ public class DataManager {
     
     var restsRef : DatabaseReference
     var usersRef: DatabaseReference
-
+    
+    var isFinishedReadingRests : Bool = false
+    var isFinishedReadingLikes : Bool = false
+    
     private var allRestaurants = [Restaurant]()
     private var userLikedCards = [Card]()
-    //var userID : String
+
     
     private init(){
-       // userID = DataManager.shared.getuser..
-       
         restsRef = Database.database().reference().child(RESTAURANTS)
         usersRef = Database.database().reference().child(USERS)
-        
-        readRestsFromFirebase()
-        
-      
     }
     
     class func getInstance() -> DataManager {
@@ -58,14 +54,22 @@ public class DataManager {
         }
         return sharedDatabase!
     }
+
+    func getAllRestaurants() -> [Restaurant] {
+        return self.allRestaurants
+    }
     
+    func getAllUserLikedCards() -> [Card] {
+        return self.userLikedCards
+    }
     
-    func readRestsFromFirebase()  {
-        if !allRestaurants.isEmpty {return}
+
+    func readData(userId : String , callback: @escaping () -> ()){
         
+        /**** Read Rests  ****/
+        if !allRestaurants.isEmpty {return}
         restsRef.observe(.value, with: {(snapshot) in
             if (!snapshot.exists()) {return}
-            
             for child in snapshot.children {
                 if let restData = child as? DataSnapshot {
                     let restId = restData.key
@@ -81,9 +85,9 @@ public class DataManager {
                         let longtitude = restDict[self.LONGITUDE] as! Double
                         
                         let rest = Restaurant(id: restId, name: restName, webSiteURL: website, phone: phoneNumber, address: address, latitude: latitude, longtitude: longtitude, isKosher: isKosher, hasDelivery: hasDelivery, price: price)
-                       
+                        
                         let cards = restData.childSnapshot(forPath: "Cards")
-                    
+                        
                         for card in cards.children {
                             if let cardData = card as? DataSnapshot{
                                 let cardID = cardData.key
@@ -92,61 +96,65 @@ public class DataManager {
                                 rest.addCardToList(card: restCard)
                             }
                         }
-                         self.allRestaurants.append(rest)
+                        self.allRestaurants.append(rest)
                     }
                 }
-                
+            }
+            self.isFinishedReadingRests = true
+            if self.isFinishedReadingLikes {
+                callback()
             }
         })
-        
-    }
-    
-   
-    
-    func getAllRestaurants() -> [Restaurant] {
-        return self.allRestaurants
-    }
-    
-    func getAllUserLikedCards() -> [Card] {
-        return self.userLikedCards
-    }
-    
-    
 
-    
-    func readUserLikesFromFirebase(userId : String){
-       if !userLikedCards.isEmpty {return}
-        
-        usersRef.child(userId).child(LIKES).observe(.value, with: {(snapshot) in
-            
+        /***** Read User Likes *****/
+        if !userLikedCards.isEmpty {return}
+        usersRef.child(userId).child("likes").observeSingleEvent(of: .value, with: {(snapshot) in
             if (!snapshot.exists()) {return}
-            
             for child in snapshot.children {
                 if let cardData = child as? DataSnapshot {
                     let cardId = cardData.key
                     print(cardId)
                     if let cardDict = cardData.value as? [String:String] {
                         print("LIKED cards!!!")
-                         print(cardDict)
-                        let restId = cardDict[self.REST_ID]
-                        let imageUrl = cardDict[self.IMAGE_URL]
-                        let restName = cardDict[self.REST_NAME]
-                        
+                        print(cardDict)
+                        let restId = cardDict["restID"]
+                        let imageUrl = cardDict["imageURL"]
+                        let restName = cardDict["restName"]
                         let card : Card = Card(cardID: cardId, restID: restId!, restName: restName!, imageURL: imageUrl!)
                         self.userLikedCards.append(card)
                     }
                 }
-                }
-            
-            })
+            }
+            User.getInstance().setLikedCards(cards: self.userLikedCards)
+            self.isFinishedReadingLikes = true
+            if self.isFinishedReadingRests {
+                callback()
+            }
+        })
     }
-        
+ 
+    func readUserName(userId: String) {
+    usersRef.child(userId).observeSingleEvent(of: .value, with: {(snapshot) in
+    if (!snapshot.exists()) {return}
+    
+    let firstname = snapshot.childSnapshot(forPath: self.USER_FIRST_NAME).value as! String
+    let lastname = snapshot.childSnapshot(forPath: self.USER_LAST_NAME).value as! String
+    let name = firstname + " " + lastname
+    User.getInstance().setUserName(username: name)
+    })
+    }
     
     
     func writeCardToLikes(userId : String , card : Card) {
         usersRef.child(userId).child(LIKES).child(card.getID()).child(REST_ID).setValue(card.getRestId())
         usersRef.child(userId).child(LIKES).child(card.getID()).child(IMAGE_URL).setValue(card.getImageURL())
         usersRef.child(userId).child(LIKES).child(card.getID()).child(REST_NAME).setValue(card.getRestName())
+        
+    }
+    
+    func removeCardFromLikes(userId: String , card : Card) {
+        usersRef.child(userId).child(LIKES).child(card.getID()).removeValue()
+        userLikedCards = userLikedCards.filter { $0.getID() != card.getID() }
         
     }
     

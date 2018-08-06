@@ -25,6 +25,8 @@
 		04A391E22114AF7B0034CFE7 /* NetworkUnavailableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A391E12114AF7B0034CFE7 /* NetworkUnavailableViewController.swift */; };
 		04BEA66C210FA30400C6A412 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04BEA66B210FA30300C6A412 /* Assets.xcassets */; };
 		04C06FEC210F5BC400C6C912 /* CardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C06FEB210F5BC400C6C912 /* CardViewCell.swift */; };
+		04E85D462118470A00E6EB83 /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E85D452118470A00E6EB83 /* PopUpViewController.swift */; };
+		04E85D48211875F200E6EB83 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E85D47211875F200E6EB83 /* MapViewController.swift */; };
 		F573DD1D59876C2B49536938 /* Pods_FingerFood.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ABB1053E2DA2BF0B9DC323 /* Pods_FingerFood.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +51,8 @@
 		04A391E12114AF7B0034CFE7 /* NetworkUnavailableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkUnavailableViewController.swift; sourceTree = "<group>"; };
 		04BEA66B210FA30300C6A412 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04C06FEB210F5BC400C6C912 /* CardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewCell.swift; sourceTree = "<group>"; };
+		04E85D452118470A00E6EB83 /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
+		04E85D47211875F200E6EB83 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		17ABB1053E2DA2BF0B9DC323 /* Pods_FingerFood.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FingerFood.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		89A856A56AFF0CD7A0FABACD /* Pods-FingerFood.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FingerFood.release.xcconfig"; path = "Pods/Target Support Files/Pods-FingerFood/Pods-FingerFood.release.xcconfig"; sourceTree = "<group>"; };
 		B36A373C9A76672EDD7E267E /* Pods-FingerFood.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FingerFood.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FingerFood/Pods-FingerFood.debug.xcconfig"; sourceTree = "<group>"; };
@@ -104,6 +108,8 @@
 		048325D220FF9766007BBBFC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				04E85D47211875F200E6EB83 /* MapViewController.swift */,
+				04E85D452118470A00E6EB83 /* PopUpViewController.swift */,
 				04A391E12114AF7B0034CFE7 /* NetworkUnavailableViewController.swift */,
 				048325C820FF96F3007BBBFC /* MainViewController.swift */,
 				048325CA20FF973C007BBBFC /* LoginViewController.swift */,
@@ -300,10 +306,12 @@
 				04C06FEC210F5BC400C6C912 /* CardViewCell.swift in Sources */,
 				048325AD20FF9544007BBBFC /* AppDelegate.swift in Sources */,
 				04746C1921143A7700AFF4B1 /* ConnectionManager.swift in Sources */,
+				04E85D462118470A00E6EB83 /* PopUpViewController.swift in Sources */,
 				048325D120FF975E007BBBFC /* ProfileViewController.swift in Sources */,
 				048325C920FF96F3007BBBFC /* MainViewController.swift in Sources */,
 				048325CF20FF9755007BBBFC /* PreferencesViewController.swift in Sources */,
 				04977A3C21034F91002B5FB9 /* Card.swift in Sources */,
+				04E85D48211875F200E6EB83 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

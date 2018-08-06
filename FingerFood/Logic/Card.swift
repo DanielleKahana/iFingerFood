@@ -53,6 +53,7 @@ class Card : Hashable{
         let url = URL(string: self.imageURL.trimmingCharacters(in: .whitespaces))
         return url!
     }
+
     
     static func == (lhs: Card, rhs: Card) -> Bool {
         return lhs.cardID == rhs.cardID

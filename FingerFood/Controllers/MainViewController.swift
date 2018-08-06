@@ -11,15 +11,13 @@ import Koloda
 import Firebase
 import FirebaseAuth
 import Kingfisher
-
-private var numOfCards : Int = 5
+import CoreLocation
 
 
 class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDelegate {
     
 
     @IBOutlet weak var restLabel: UILabel!
-    
     @IBOutlet weak var kolodaView: KolodaView!
     
   
@@ -28,28 +26,21 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
     private var allLikedCards : [Card] = []
     private var currentLikedCardsIndexes : [Int] = []
     private var allEligbleCards : [Card] = []
-    //private var cardToShowImages : [UIImage] = []
     private var cardsToShow : [Card] = []
     private var userHandler : User? = nil
     private var dataHandler : DataManager? = nil
     
-    private var threeCards : [Card] = []
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("in didload!")
         userHandler = User.getInstance()
         dataHandler = DataManager.getInstance()
-
         ImageCache.default.maxMemoryCost = 5 * 1024 * 1024
         
         allRestaurants = (dataHandler?.getAllRestaurants())!
         allLikedCards = (userHandler?.getAllLikes())!
         
         setCardToShow()
-    
- 
-//        kolodaView.countOfVisibleCards = 1
       
         kolodaView.dataSource = self
         kolodaView.delegate = self
@@ -57,21 +48,59 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
       
     }
     
+  
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        print("in will appear!")
+        
+        allLikedCards = (userHandler?.getAllLikes())!
+        setCardToShow()
+        self.kolodaView.reloadData()
     }
     
     
-    func isEligble(restaurant : Restaurant) -> Bool {
-        /*
-        if allEligbleCards.count >  15 {
-        return false
+    func isEligble(rest : Restaurant) -> Bool {
+   
+        let userPrefferedDistance = userHandler?.getPrefferedDistance()
+        let userWantsKosher = userHandler?.isUserWantKosher()
+        let userWantsDelivery = userHandler?.isUserWantDelivery()
+        let userPrefferedPrice = userHandler?.getPrefferedPrice()
+       
+        let distance = getUserDistanceFromRest(rest: rest)
+        
+        print("Distance in km = \(distance)")
+        
+        if distance > Double(userPrefferedDistance!) {
+            return false
         }
-        else {
- */
+        
+        if userWantsKosher! && !rest.getIsKosher() {
+            return false
+        }
+        
+        if userWantsDelivery! && !rest.getHasDelivery() {
+            return false
+        }
+    
+        if userPrefferedPrice != 0 {
+            if userPrefferedPrice != rest.getPrice() {
+                return false
+            }
+        }
+    
         return true
-   //     }
+    }
+    
+    func getUserDistanceFromRest(rest: Restaurant) -> Double{
+        
+        let userLocation = CLLocation(latitude: (userHandler?.getLatitude())!, longitude: (userHandler?.getLongitude())!)
+        let restLocation = CLLocation(latitude: rest.getLatitude(), longitude: rest.getLongitude())
+        
+        let distanceInMeters = userLocation.distance(from: restLocation)
+        let distanceInKm = distanceInMeters/1000
+        return distanceInKm
     }
     
     
@@ -94,13 +123,13 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
     func setCardToShow() -> Void {
         
         for rest in allRestaurants {
-            if isEligble(restaurant: rest) {
+            if isEligble(rest: rest) {
                 allEligbleCards.append(contentsOf: rest.getAllCards())
             }
         }
 
-        let cardsToRemove = Set(allLikedCards)
-        cardsToShow = Array(Set(allEligbleCards).subtracting(cardsToRemove))
+        //let cardsToRemove = Set(allLikedCards)
+        cardsToShow = Array(Set(allEligbleCards).subtracting(Set(allLikedCards)))
         
        // cardsToShow.shuffle()
     
@@ -127,6 +156,8 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
     
     
     func kolodaDidRunOutOfCards(_ koloda: KolodaView) {
+        cardsToShow = (dataHandler?.getAllUserLikedCards())!
+        setCardToShow()
         kolodaView.reloadData()
     }
 
@@ -135,19 +166,7 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
     }
 
     func koloda(_ koloda: KolodaView, viewForCardAt index: Int) -> UIView {
-        print("card Index in koloda \(index)")
-        
         let imageView = UIImageView()
-
-//        DispatchQueue.global().async { [weak self] in
-//            guard let url = self?.cardsToShow[index].getCardURL() else { return }
-//            guard let data = try? Data(contentsOf: url) else { return }
-//            let image = UIImage(data: data)
-//            DispatchQueue.main.async {
-//                imageView.image = image
-//            }
-//        }
-        //imageView.contentMode = .scaleAspectFill
         imageView.kf.setImage(with: cardsToShow[index].getCardURL())
         return imageView
 
@@ -167,21 +186,14 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
         
         switch direction {
         case .left:
-            print("Disliked CARD:")
             print(cardsToShow[index].getID())
             print(cardsToShow[index].getRestName())
-            
-             //remove from images array and from card to show array
            
         case .right:
             currentLikedCardsIndexes.append(index)
-            print("LIKED CARD:")
             print(cardsToShow[index].getID())
             print(cardsToShow[index].getRestName())
-           
-            //userHandler?.addCardToLikes(card: cardsToShow[index])
-            
-            
+            userHandler?.addCardToLikes(card: cardsToShow[index])
         
         default:
             print("error in dragging card")
