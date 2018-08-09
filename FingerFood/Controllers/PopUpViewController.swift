@@ -9,6 +9,11 @@
 import UIKit
 import SafariServices
 
+protocol PopupDelegate : class {
+    func deleteCard(card : Card, indexPath : IndexPath)
+}
+
+
 class PopUpViewController: UIViewController , SFSafariViewControllerDelegate {
 
     @IBOutlet weak var restNameLabel: UILabel!
@@ -16,10 +21,14 @@ class PopUpViewController: UIViewController , SFSafariViewControllerDelegate {
     @IBOutlet weak var PopUpView: UIView!
     @IBOutlet weak var addressLabel: UILabel!
     
+    var delegate : PopupDelegate?
+    
     var image : UIImage?
     var card: Card?
     var restName : String = ""
     var allRests : [Restaurant]!
+    var cellIndexPath : IndexPath?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +68,10 @@ class PopUpViewController: UIViewController , SFSafariViewControllerDelegate {
         parent?.view.reloadInputViews()
         self.view.removeFromSuperview()
         
+        delegate?.deleteCard(card: card!, indexPath: cellIndexPath!)
+        
+        
+        
     }
     
     @IBAction func mapBtnPressed(_ sender: Any) {
@@ -79,7 +92,12 @@ class PopUpViewController: UIViewController , SFSafariViewControllerDelegate {
     }
     
     @IBAction func webBtnPressed(_ sender: Any) {
-        let website = "http://www.google.com"
+        var website : String = ""
+        for rest in allRests {
+            if rest.getId() == card?.getRestId() {
+                 website = rest.getWebsiteUrl()
+            }
+        }
         let requestUrl = URL(string: website)
         let svc : SFSafariViewController = SFSafariViewController(url: requestUrl!)
         svc.delegate = self

@@ -83,6 +83,7 @@ class PreferencesViewController: UIViewController, UIPickerViewDelegate , UIPick
         if user?.getPrefferedDistance() != distanceValue {
             user?.setDistance(distance: distanceValue)
         }
+        
         user?.setPrice(prefferedPrice: priceChosen)
         
         self.navigationController?.popViewController(animated: true)

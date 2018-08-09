@@ -18,7 +18,7 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
     private var userData : User? = nil
     private var dataHandler : DataManager? = nil
     
-    private var likedCardsImages : [UIImage] = []
+    //private var likedCardsImages : [UIImage] = []
     private var likedCards : [Card] = []
     private var allRests : [Restaurant] = []
     private var username : String = ""
@@ -26,7 +26,7 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
     
     
     override func viewDidLoad() {
-        print("in did load!")
+        //print("in did load!")
         super.viewDidLoad()
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -52,12 +52,12 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         
-        print("in will appear!")
+        //print("in will appear!")
     }
     
     
     override func viewDidAppear(_ animated: Bool) {
-        print("in did apear")
+        //print("in did apear")
         super.viewDidAppear(animated)
     }
     
@@ -97,11 +97,12 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardViewCell
         
-        print("indexpath = \(indexPath.item)")
+        //print("indexpath = \(indexPath.item)")
         
         cell.setIndex(index: indexPath.item)
         cell.setCard(card: likedCards[indexPath.item])
         cell.cellImage.kf.setImage(with: likedCards[indexPath.item].getCardURL())
+        
         
         return cell
     }
@@ -121,7 +122,9 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
         viewController.restName = selectedCard.getRestName()
         viewController.image = cell.cellImage.image
         viewController.card = selectedCard
-    
+        viewController.cellIndexPath = indexPath
+        viewController.delegate = self
+        
         self.addChildViewController(viewController)
         viewController.view.frame = self.view.frame
         self.view.addSubview(viewController.view)
@@ -131,11 +134,21 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
     
     
     
+    
+    
     @IBAction func backBtnPressed(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
     
-    
-  
+}
 
+extension ProfileViewController : PopupDelegate {
+    func deleteCard(card: Card, indexPath : IndexPath) {
+        let i = likedCards.index(of: card)
+        likedCards.remove(at: i!)
+        collectionView.deleteItems(at: [indexPath])
+        
+    }
+    
+    
 }

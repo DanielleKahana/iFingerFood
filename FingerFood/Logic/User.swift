@@ -20,7 +20,7 @@ class User {
     
     private var userId : String!
     private var username : String!
-    private var likedCards : [Card]!
+    private var likedCards : [Card] = [Card]()
     private var dataHandler : DataManager? = nil
     
     private var latitude : Double!
@@ -75,6 +75,10 @@ class User {
     }
     
     func removeCardFromLikes(card: Card) {
+        if likedCards.contains(card){
+            let i = likedCards.index(of: card)
+            likedCards.remove(at: i!)
+        }
         dataHandler?.removeCardFromLikes(userId: userId , card: card) 
     }
     

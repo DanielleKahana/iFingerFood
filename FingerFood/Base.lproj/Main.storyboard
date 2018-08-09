@@ -459,14 +459,14 @@
                                             <constraint firstAttribute="height" constant="300" id="6Aw-Wd-U2f"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vUN-na-JQG" userLabel="restName">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="rest" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vUN-na-JQG" userLabel="restName">
                                         <rect key="frame" x="0.0" y="300" width="230" height="25"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="vUN-na-JQG" firstAttribute="top" secondItem="gZj-XR-7Xj" secondAttribute="bottom" id="9zL-1C-NIZ"/>
                                     <constraint firstAttribute="trailing" secondItem="gZj-XR-7Xj" secondAttribute="trailing" id="J79-5v-dqJ"/>
@@ -495,6 +495,7 @@
                     </view>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
+                        <outlet property="kolodaCardContainer" destination="MZL-YG-epg" id="D7d-ej-3Ha"/>
                         <outlet property="kolodaView" destination="gZj-XR-7Xj" id="PzC-zn-xXz"/>
                         <outlet property="restLabel" destination="vUN-na-JQG" id="rTn-Vr-NLb"/>
                     </connections>

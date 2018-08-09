@@ -107,9 +107,16 @@ class RegisterViewController: UIViewController {
                 
             }
             else {
-                let userId = user?.user.uid
-                self.dataHandler?.addNewUserToData(uid: userId!, firstName: firstName, lastName: LastName)
-                self.showWelcomeMessage()
+                if let userId = user?.user.uid{
+                    User.getInstance().setUserID(userId: userId)
+                    self.dataHandler?.addNewUserToData(uid: userId, firstName: firstName, lastName: LastName)
+                    self.dataHandler?.readUserName(userId: userId)
+                    self.dataHandler?.readData(userId: userId, callback: {
+                        SVProgressHUD.dismiss()
+                        self.showWelcomeMessage()
+                    })
+                    
+                }
             }
            
         })
