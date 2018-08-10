@@ -26,7 +26,7 @@ class PopUpViewController: UIViewController , SFSafariViewControllerDelegate {
     var image : UIImage?
     var card: Card?
     var restName : String = ""
-    var allRests : [Restaurant]!
+    var allRests : [Restaurant]?
     var cellIndexPath : IndexPath?
 
     
@@ -51,7 +51,7 @@ class PopUpViewController: UIViewController , SFSafariViewControllerDelegate {
     
     func findAddress() -> String{
         
-        for rest in allRests {
+        for rest in allRests! {
             if rest.getId() == card?.getRestId() {
                 return rest.getAddress()
             }
@@ -81,7 +81,7 @@ class PopUpViewController: UIViewController , SFSafariViewControllerDelegate {
     }
     
     @IBAction func callBtnPressed(_ sender: Any) {
-        for rest in allRests {
+        for rest in allRests! {
             if rest.getId() == card?.getRestId() {
                 let phoneNumber = rest.getPhone()
                 if let url = URL(string: "tel://\(phoneNumber)"){
@@ -93,7 +93,7 @@ class PopUpViewController: UIViewController , SFSafariViewControllerDelegate {
     
     @IBAction func webBtnPressed(_ sender: Any) {
         var website : String = ""
-        for rest in allRests {
+        for rest in allRests! {
             if rest.getId() == card?.getRestId() {
                  website = rest.getWebsiteUrl()
             }

@@ -9,6 +9,8 @@
 import UIKit
 
 class ProfileViewController: UIViewController , UICollectionViewDelegate , UICollectionViewDataSource {
+    
+   
    
     @IBOutlet weak var numOfDishesLabel: UILabel!
     @IBOutlet weak var numOfRestsLabel: UILabel!
@@ -18,18 +20,20 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
     private var userData : User? = nil
     private var dataHandler : DataManager? = nil
     
-    //private var likedCardsImages : [UIImage] = []
     private var likedCards : [Card] = []
     private var allRests : [Restaurant] = []
     private var username : String = ""
-   
+    
+    private let tileMargin: CGFloat = 2.0
+    private let numberOfItemsPerRow: CGFloat = 3.0
     
     
     override func viewDidLoad() {
-        //print("in did load!")
         super.viewDidLoad()
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        
         
         userData = User.getInstance()
         dataHandler = DataManager.getInstance()
@@ -38,6 +42,7 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
         likedCards = (userData?.getAllLikes())!
         allRests = (dataHandler?.getAllRestaurants())!
         
+       setCollectionViewCells()
         setUserName()
         setStatus()
         
@@ -52,15 +57,10 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         
-        //print("in will appear!")
+        
     }
     
-    
-    override func viewDidAppear(_ animated: Bool) {
-        //print("in did apear")
-        super.viewDidAppear(animated)
-    }
-    
+   
     func setUserName() {
         if userData != nil {
             usernameLabel.text = username
@@ -88,8 +88,13 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
     }
     
     
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return likedCards.count
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
     }
     
     
@@ -97,15 +102,45 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CardViewCell
         
-        //print("indexpath = \(indexPath.item)")
-        
         cell.setIndex(index: indexPath.item)
         cell.setCard(card: likedCards[indexPath.item])
         cell.cellImage.kf.setImage(with: likedCards[indexPath.item].getCardURL())
-        
-        
+    
         return cell
     }
+    
+    
+ /*
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        setCollectionViewCells()
+    }
+   */
+    
+    
+    
+    
+    func setCollectionViewCells()
+    {
+        let collectionViewWidth = collectionView.frame.width 
+        
+        let itemWidth = (collectionViewWidth) / numberOfItemsPerRow
+        
+        let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        layout.itemSize = CGSize(width: itemWidth, height: itemWidth)
+        collectionView.collectionViewLayout = layout
+       //layout.minimumLineSpacing = 0
+       //layout.minimumInteritemSpacing = 0
+    }
+    
+    
+    
+    @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout , insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        return UIEdgeInsetsMake(tileMargin, tileMargin, tileMargin, tileMargin)
+    }
+    
+    
     
     
     
@@ -147,6 +182,7 @@ extension ProfileViewController : PopupDelegate {
         let i = likedCards.index(of: card)
         likedCards.remove(at: i!)
         collectionView.deleteItems(at: [indexPath])
+        setStatus()
         
     }
     

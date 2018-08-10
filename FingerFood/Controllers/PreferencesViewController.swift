@@ -19,11 +19,11 @@ class PreferencesViewController: UIViewController, UIPickerViewDelegate , UIPick
     @IBOutlet weak var slider: UISlider!
 
     let prices = ["All" , "$", "$$" ,"$$$", "$$$$"]
-    var priceChosen : Int!
-    var isKosherChecked : Bool!
-    var hasDeliveryChecked: Bool!
+    var priceChosen : Int = 0
+    var isKosherChecked : Bool = false
+    var hasDeliveryChecked: Bool = false
     var user : User?
-    var distanceValue : Int!
+    var distanceValue : Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,15 +33,15 @@ class PreferencesViewController: UIViewController, UIPickerViewDelegate , UIPick
         pricePicker.delegate = self
         pricePicker.dataSource = self
         
-        isKosherChecked = user?.isUserWantKosher()
-        hasDeliveryChecked = user?.isUserWantDelivery()
-        priceChosen = user?.getPrefferedPrice()
+        isKosherChecked = (user?.isUserWantKosher())!
+        hasDeliveryChecked = (user?.isUserWantDelivery())!
+        priceChosen = (user?.getPrefferedPrice())!
         distanceValue = user?.getPrefferedDistance()
         
         setPicker(value: priceChosen)
         setDistanceText(dist: distanceValue!)
-        toggleDeliveryView(hasDelivery: hasDeliveryChecked!)
-        toggleKosherView(hasKosher: isKosherChecked!)
+        toggleDeliveryView(hasDelivery: hasDeliveryChecked)
+        toggleKosherView(hasKosher: isKosherChecked)
     }
 
     override func didReceiveMemoryWarning() {
@@ -58,7 +58,7 @@ class PreferencesViewController: UIViewController, UIPickerViewDelegate , UIPick
     
     @IBAction func distanceSliderChanged(_ sender: UISlider) {
         distanceValue = Int(sender.value)
-        setDistanceText(dist: distanceValue)
+        setDistanceText(dist: distanceValue!)
     }
     
     func setPicker(value : Int) {
@@ -81,7 +81,7 @@ class PreferencesViewController: UIViewController, UIPickerViewDelegate , UIPick
         }
         
         if user?.getPrefferedDistance() != distanceValue {
-            user?.setDistance(distance: distanceValue)
+            user?.setDistance(distance: distanceValue!)
         }
         
         user?.setPrice(prefferedPrice: priceChosen)

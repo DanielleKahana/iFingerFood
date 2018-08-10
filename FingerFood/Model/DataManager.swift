@@ -113,10 +113,7 @@ public class DataManager {
             for child in snapshot.children {
                 if let cardData = child as? DataSnapshot {
                     let cardId = cardData.key
-                    print(cardId)
                     if let cardDict = cardData.value as? [String:String] {
-                        print("LIKED cards!!!")
-                        print(cardDict)
                         let restId = cardDict["restID"]
                         let imageUrl = cardDict["imageURL"]
                         let restName = cardDict["restName"]
@@ -166,6 +163,9 @@ public class DataManager {
         newUserRef.child(LIKES).setValue(0)
     }
     
+    func clearData() {
+        DataManager.sharedDatabase = nil
+    }
     
     
 }

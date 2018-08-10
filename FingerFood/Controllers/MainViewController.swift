@@ -16,7 +16,7 @@ import CoreLocation
 
 class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDelegate {
     
-    @IBOutlet weak var kolodaCardContainer: UIView!
+   
     
     @IBOutlet weak var restLabel: UILabel!
     @IBOutlet weak var kolodaView: KolodaView!
@@ -33,24 +33,23 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //print("in didload!")
-         kolodaCardContainer.roundedCorners(radius: 10)
          kolodaView.roundedCorners(radius: 10)
-        
+      /*
         userHandler = User.getInstance()
         dataHandler = DataManager.getInstance()
-        
+        */
         kolodaView.countOfVisibleCards = 3
         
         ImageCache.default.maxMemoryCost = 5 * 1024 * 1024
-        
+      /*
         allRestaurants = (dataHandler?.getAllRestaurants())!
         allLikedCards = (userHandler?.getAllLikes())!
         
         setCardToShow()
-      
+      */
         kolodaView.dataSource = self
         kolodaView.delegate = self
+    
         self.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
       
     }
@@ -64,7 +63,15 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        print("in will appear!")
+        
+        userHandler = User.getInstance()
+        dataHandler = DataManager.getInstance()
+        
+        allRestaurants = (dataHandler?.getAllRestaurants())!
+        allLikedCards = (userHandler?.getAllLikes())!
+        setCardToShow()
+        
+        
         
         if !allEligbleCards.isEmpty {
             allEligbleCards.removeAll()
@@ -146,7 +153,7 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
         
         cardsToShow = Array(Set(allEligbleCards).subtracting(Set(allLikedCards)))
         
-       // cardsToShow.shuffle()
+        cardsToShow.shuffle()
     
     }
  
@@ -180,52 +187,30 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
 
     func koloda(_ koloda: KolodaView, didShowCardAt index: Int) { // This method is called after a card has been shown, after animation is complete
         restLabel.text = cardsToShow[index].getRestName()
-        print("Card id = \(cardsToShow[index].getID()) ,url =  \(cardsToShow[index].getCardURL()), rest = \(cardsToShow[index].getRestName())")
     }
     
 
     func koloda(_ koloda: KolodaView, viewForCardAt index: Int) -> UIView { //Return a view to be displayed at the specified index in the KolodaView.
-        print("current card index = ", koloda.currentCardIndex)
-        print("index = \(index)")
         let imageView = UIImageView()
-        imageView.roundedCorners(radius: 10)
-        kolodaView.roundedCorners(radius: 10)
-        
         imageView.kf.setImage(with: cardsToShow[index].getCardURL())
-        
         
         return imageView
 
     }
    
+    
    
     func kolodaSpeedThatCardShouldDrag(_ koloda: KolodaView) -> DragSpeed {
         return .default
         
     }
     
-    func koloda(_ koloda: KolodaView, didSelectCardAt index: Int) { // This method is called when one of cards is tapped.
-        //print(cardsToShow[index].getRestName())
-       
-    }
     
     
     func koloda(_ koloda: KolodaView, didSwipeCardAt index: Int, in direction: SwipeResultDirection) {
         
-        switch direction {
-        case .left:
-           // print(cardsToShow[index].getID())
-            print(cardsToShow[index].getRestName())
-           
-        case .right:
-            currentLikedCardsIndexes.append(index)
-            //print(cardsToShow[index].getID())
-            print(cardsToShow[index].getRestName())
+        if (direction == .right) {
             userHandler?.addCardToLikes(card: cardsToShow[index])
-            
-        
-        default:
-            print("error in dragging card")
         }
     }
     
@@ -236,6 +221,9 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
             let firebaseAuth = Auth.auth()
             do {
                 try firebaseAuth.signOut()
+                
+                User.getInstance().clearData()
+                DataManager.getInstance().clearData()
                 self.navigationController?.popToRootViewController(animated: true)
             } catch let signOutError as NSError {
                 print ("Error signing out: %@", signOutError)
@@ -254,15 +242,12 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
 
 
 
-extension MutableCollection {
+extension Array
+{
     mutating func shuffle() {
-        let c = count
-        guard c > 1 else {return}
-        
-        for (firstUnshuffled , unshuffledCount) in zip(indices , stride(from: c, to: 1, by: -1)) {
-            let d: Int = numericCast(arc4random_uniform(numericCast(unshuffledCount)))
-            let i = index(firstUnshuffled , offsetBy: d)
-            swapAt(firstUnshuffled, i)
+        for _ in 0..<count
+        {
+            sort { (_,_) in arc4random() < arc4random()}
         }
     }
 }

@@ -12,4 +12,5 @@ pod 'Toast-Swift', '~> 3.0.1'
 pod 'SVProgressHUD'
 pod 'Kingfisher', '~> 4.0'
 pod 'ReachabilitySwift', '~> 3'
+pod 'IQKeyboardManagerSwift'
 end

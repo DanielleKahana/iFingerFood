@@ -28,7 +28,6 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        User.getInstance().setLocation(latitude: self.latitude, longitude: self.longitude)
         
         ConnectionManager.shared.startMonitoring()
         
@@ -57,7 +56,15 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        
+    
+        User.getInstance().setLocation(latitude: self.latitude, longitude: self.longitude)
+
+        if Auth.auth().currentUser != nil {
+            SVProgressHUD.show()
+            let userId = Auth.auth().currentUser?.uid
+            login(id: userId!)
+        }
+ 
         let emailImage = UIImage(named: "mail")
         addLeftImageToTextField(txtField: emailTextField, image: emailImage!)
         
@@ -65,6 +72,10 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
         addLeftImageToTextField(txtField: passwordTextField, image: lockImage!)
     }
     
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -130,19 +141,23 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
             else {
                 
                 if let userId = user?.user.uid {
-                    User.getInstance().setUserID(userId: userId)
-                    self.dataHandler = DataManager.getInstance()
-                    self.dataHandler?.readUserName(userId: userId)
-                    self.dataHandler?.readData(userId: userId, callback: {
-                    SVProgressHUD.dismiss()
-                    self.goToMainVC()
-                    })
-                    print("lat = \(self.latitude) , long = \(self.longitude)")
-                    
+                    self.login(id: userId)
                 }
             }
             })
         }
+    
+    
+    func login(id : String) {
+        
+        User.getInstance().setUserID(userId: id)
+        self.dataHandler = DataManager.getInstance()
+        self.dataHandler?.readUserName(userId: id)
+        self.dataHandler?.readData(userId: id, callback: {
+            SVProgressHUD.dismiss()
+            self.goToMainVC()
+        })
+    }
 
     func goToMainVC() {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -167,9 +182,6 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
         let location = locations[locations.count - 1]
         if location.horizontalAccuracy > 0 {
             locationManager.stopUpdatingLocation()
-        
-            print("longitude = \(location.coordinate.longitude) , latitude = \(location.coordinate.latitude) ")
-            
             latitude = location.coordinate.latitude
             longitude = location.coordinate.longitude
             User.getInstance().setLocation(latitude: latitude, longitude: longitude)

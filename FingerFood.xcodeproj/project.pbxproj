@@ -31,6 +31,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0470DD79211DDB10008E08A1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		04746C1821143A7700AFF4B1 /* ConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionManager.swift; sourceTree = "<group>"; };
 		04787063210744C7004C0385 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		047AEB012101EA5D000CE265 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -70,6 +71,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0470DD78211DDAF9008E08A1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0470DD79211DDB10008E08A1 /* GoogleService-Info.plist */,
+				048325B820FF9544007BBBFC /* Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		048325A020FF9544007BBBFC = {
 			isa = PBXGroup;
 			children = (
@@ -93,14 +103,10 @@
 			isa = PBXGroup;
 			children = (
 				047AEB012101EA5D000CE265 /* GoogleService-Info.plist */,
-				048325AC20FF9544007BBBFC /* AppDelegate.swift */,
-				048325B020FF9544007BBBFC /* Main.storyboard */,
-				048325B520FF9544007BBBFC /* LaunchScreen.storyboard */,
-				048325B820FF9544007BBBFC /* Info.plist */,
+				0470DD78211DDAF9008E08A1 /* Supporting Files */,
 				048325D220FF9766007BBBFC /* Controllers */,
-				04977A3821034A23002B5FB9 /* Database */,
-				04977A3D21034F96002B5FB9 /* Logic */,
-				04C06FED210F5E3F00C6C912 /* Views */,
+				04977A3D21034F96002B5FB9 /* Model */,
+				04C06FED210F5E3F00C6C912 /* View */,
 			);
 			path = FingerFood;
 			sourceTree = "<group>";
@@ -108,6 +114,7 @@
 		048325D220FF9766007BBBFC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				048325AC20FF9544007BBBFC /* AppDelegate.swift */,
 				04E85D47211875F200E6EB83 /* MapViewController.swift */,
 				04E85D452118470A00E6EB83 /* PopUpViewController.swift */,
 				04A391E12114AF7B0034CFE7 /* NetworkUnavailableViewController.swift */,
@@ -121,31 +128,26 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		04977A3821034A23002B5FB9 /* Database */ = {
+		04977A3D21034F96002B5FB9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				04977A3421034965002B5FB9 /* DataManager.swift */,
-			);
-			path = Database;
-			sourceTree = "<group>";
-		};
-		04977A3D21034F96002B5FB9 /* Logic */ = {
-			isa = PBXGroup;
-			children = (
 				04746C1821143A7700AFF4B1 /* ConnectionManager.swift */,
 				04977A3921034F7B002B5FB9 /* Restaurant.swift */,
 				04977A3B21034F91002B5FB9 /* Card.swift */,
 				04787063210744C7004C0385 /* User.swift */,
 			);
-			path = Logic;
+			path = Model;
 			sourceTree = "<group>";
 		};
-		04C06FED210F5E3F00C6C912 /* Views */ = {
+		04C06FED210F5E3F00C6C912 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				048325B520FF9544007BBBFC /* LaunchScreen.storyboard */,
+				048325B020FF9544007BBBFC /* Main.storyboard */,
 				04C06FEB210F5BC400C6C912 /* CardViewCell.swift */,
 			);
-			path = Views;
+			path = View;
 			sourceTree = "<group>";
 		};
 		11CC76E94FDAE521F88F5F5D /* Pods */ = {
@@ -262,6 +264,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-FingerFood/Pods-FingerFood-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/Koloda/Koloda.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/ReachabilitySwift.framework",
@@ -275,6 +278,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Koloda.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReachabilitySwift.framework",
@@ -457,7 +461,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = FingerFood/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/FingerFood/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -475,7 +479,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = FingerFood/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/FingerFood/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
