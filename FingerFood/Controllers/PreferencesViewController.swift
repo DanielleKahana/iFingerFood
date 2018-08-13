@@ -10,8 +10,14 @@ import UIKit
 
 class PreferencesViewController: UIViewController, UIPickerViewDelegate , UIPickerViewDataSource {
   
-
+    @IBOutlet weak var deliveryBtn: UIButton!
+    @IBOutlet weak var kosherBtn: UIButton!
+    @IBOutlet weak var sliderContainer: UIView!
     
+    @IBOutlet weak var applyBtn: UIButton!
+    @IBOutlet weak var cancelBtn: UIButton!
+    
+    @IBOutlet weak var pickerContainer: UIView!
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var pricePicker: UIPickerView!
     @IBOutlet weak var deliveryView: UIView!
@@ -40,8 +46,8 @@ class PreferencesViewController: UIViewController, UIPickerViewDelegate , UIPick
         
         setPicker(value: priceChosen)
         setDistanceText(dist: distanceValue!)
-        toggleDeliveryView(hasDelivery: hasDeliveryChecked)
-        toggleKosherView(hasKosher: isKosherChecked)
+        toggleDeliveryButton(hasDelivery: hasDeliveryChecked)
+        toggleKosherButton(hasKosher: isKosherChecked)
     }
 
     override func didReceiveMemoryWarning() {
@@ -52,6 +58,13 @@ class PreferencesViewController: UIViewController, UIPickerViewDelegate , UIPick
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+        pickerContainer.roundedCorners(radius: 10)
+        sliderContainer.roundedCorners(radius: 10)
+        
+        let color = UIColor(red: 245, green: 245, blue: 222).cgColor
+        applyBtn.addBorderLine(color: color)
+        cancelBtn.addBorderLine(color: color)
         
        
     }
@@ -71,7 +84,8 @@ class PreferencesViewController: UIViewController, UIPickerViewDelegate , UIPick
         slider.setValue(Float(dist), animated: true)
     }
     
-    @IBAction func applyBtnPressed(_ sender: Any) {
+    @IBAction func applyBtnPressed(_ sender: UIButton) {
+        
         if user?.isUserWantKosher() != isKosherChecked {
             user?.setKosher(isKosher: isKosherChecked)
         }
@@ -117,40 +131,66 @@ class PreferencesViewController: UIViewController, UIPickerViewDelegate , UIPick
         self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func kosherBtnPressed(_ sender: Any) {
+    @IBAction func kosherBtnPressed(_ sender: UIButton) {
+        
+        sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+        UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: CGFloat(0.20), initialSpringVelocity: CGFloat(6.0), options: UIViewAnimationOptions.allowUserInteraction,  animations: {
+            sender.transform = CGAffineTransform.identity
+        }, completion: { Void in ()   }
+        )
+        
         if isKosherChecked {
-            isKosherChecked = false
-            kosherView.backgroundColor = UIColor.white
+            toggleKosherButton(hasKosher: false)
         }else {
-            isKosherChecked = true
-            kosherView.backgroundColor = UIColor.black
+            toggleKosherButton(hasKosher: true)
         }
     }
     
-    func toggleDeliveryView(hasDelivery : Bool) {
-        if hasDelivery {
-            deliveryView.backgroundColor = UIColor.black
+    @IBAction func deliveryBtnPressed(_ sender: UIButton) {
+        
+        sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+        UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: CGFloat(0.20), initialSpringVelocity: CGFloat(6.0), options: UIViewAnimationOptions.allowUserInteraction,  animations: {
+            sender.transform = CGAffineTransform.identity
+        }, completion: { Void in ()   }
+        )
+        
+        if hasDeliveryChecked {
+            toggleDeliveryButton(hasDelivery: false)
         }else {
-            deliveryView.backgroundColor = UIColor.white
+            toggleDeliveryButton(hasDelivery: true)
+            
         }
+        
     }
-    
-    func toggleKosherView(hasKosher : Bool) {
+  
+ 
+    func toggleKosherButton(hasKosher : Bool) {
         if hasKosher {
-            kosherView.backgroundColor = UIColor.black
+            isKosherChecked = true
+            kosherBtn.showsTouchWhenHighlighted = true
+            kosherBtn.dropShadow()
         }else {
-            kosherView.backgroundColor = UIColor.white
+            isKosherChecked = false
+            kosherBtn.showsTouchWhenHighlighted = false
+            kosherBtn.clearShadow()
         }
         
     }
     
-    @IBAction func deliveryBtnPressed(_ sender: Any) {
-        if hasDeliveryChecked {
-            hasDeliveryChecked = false
-            deliveryView.backgroundColor = UIColor.white
-        }else {
+    func toggleDeliveryButton(hasDelivery : Bool) {
+        if hasDelivery {
             hasDeliveryChecked = true
-             deliveryView.backgroundColor = UIColor.black
+            deliveryBtn.showsTouchWhenHighlighted = true
+            deliveryBtn.dropShadow()
+            
+        }else {
+            hasDeliveryChecked = false
+            deliveryBtn.showsTouchWhenHighlighted = false
+            deliveryBtn.clearShadow()
+            
         }
     }
+   
+    
+ 
 }

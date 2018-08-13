@@ -24,8 +24,10 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
     private var allRests : [Restaurant] = []
     private var username : String = ""
     
-    private let tileMargin: CGFloat = 2.0
     private let numberOfItemsPerRow: CGFloat = 3.0
+    
+    private let sectionInsets = UIEdgeInsets(top: 2.0, left: 2.0, bottom: 2.0, right: 2.0)
+    
     
     
     override func viewDidLoad() {
@@ -42,9 +44,10 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
         likedCards = (userData?.getAllLikes())!
         allRests = (dataHandler?.getAllRestaurants())!
         
-       setCollectionViewCells()
         setUserName()
         setStatus()
+        
+      
         
         
     }
@@ -56,6 +59,8 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        statusView.roundedCorners(radius: 10)
+        statusView.clipsToBounds = true
         
         
     }
@@ -97,6 +102,7 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
         return 1
     }
     
+    @IBOutlet weak var statusView: UIView!
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
@@ -109,43 +115,7 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
         return cell
     }
     
-    
- /*
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        setCollectionViewCells()
-    }
-   */
-    
-    
-    
-    
-    func setCollectionViewCells()
-    {
-        let collectionViewWidth = collectionView.frame.width 
-        
-        let itemWidth = (collectionViewWidth) / numberOfItemsPerRow
-        
-        let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        layout.itemSize = CGSize(width: itemWidth, height: itemWidth)
-        collectionView.collectionViewLayout = layout
-       //layout.minimumLineSpacing = 0
-       //layout.minimumInteritemSpacing = 0
-    }
-    
-    
-    
-    @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout , insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-        return UIEdgeInsetsMake(tileMargin, tileMargin, tileMargin, tileMargin)
-    }
-    
-    
-    
-    
-    
-    
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! CardViewCell
         
@@ -168,14 +138,41 @@ class ProfileViewController: UIViewController , UICollectionViewDelegate , UICol
     }
     
     
-    
-    
-    
     @IBAction func backBtnPressed(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
     
 }
+
+
+extension ProfileViewController : UICollectionViewDelegateFlowLayout {
+    
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+       
+        let paddingSpace = sectionInsets.left * (numberOfItemsPerRow + 1)
+        let availableWidth = view.frame.width - paddingSpace
+        let widthPerItem = availableWidth / numberOfItemsPerRow
+        
+        return CGSize(width: widthPerItem, height: widthPerItem)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+        return sectionInsets
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return sectionInsets.left
+    }
+}
+    
 
 extension ProfileViewController : PopupDelegate {
     func deleteCard(card: Card, indexPath : IndexPath) {
@@ -188,3 +185,5 @@ extension ProfileViewController : PopupDelegate {
     
     
 }
+
+

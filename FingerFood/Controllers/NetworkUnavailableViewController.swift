@@ -11,12 +11,21 @@ import UIKit
 class NetworkUnavailableViewController: UIViewController {
 
     
+    @IBOutlet weak var retryBtn: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let retryColor = UIColor(red: 245, green: 245, blue: 222).cgColor
+        retryBtn.addBorderLine(color: retryColor)
+        CAGradientLayer().addGradientLayer(view: view)
     }
     
 

@@ -16,7 +16,8 @@ import CoreLocation
 
 class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDelegate {
     
-   
+    
+    @IBOutlet weak var cardContainerView: UIView!
     
     @IBOutlet weak var restLabel: UILabel!
     @IBOutlet weak var kolodaView: KolodaView!
@@ -63,6 +64,8 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+       
         
         userHandler = User.getInstance()
         dataHandler = DataManager.getInstance()
@@ -159,12 +162,24 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
  
   
     
-    @IBAction func likeBtnPressed(_ sender: Any) {
+    @IBAction func likeBtnPressed(_ sender: UIButton) {
+        
+        sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+        
+        UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: CGFloat(0.20), initialSpringVelocity: CGFloat(6.0), options: UIViewAnimationOptions.allowUserInteraction, animations: {
+            sender.transform = CGAffineTransform.identity }, completion: { Void in()  }
+        )
         kolodaView?.swipe(.right)
+       
     }
     
 
-    @IBAction func disslikeBtnPressed(_ sender: Any) {
+    @IBAction func disslikeBtnPressed(_ sender: UIButton) {
+        sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+        UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: CGFloat(0.20), initialSpringVelocity: CGFloat(6.0), options: UIViewAnimationOptions.allowUserInteraction,  animations: {
+            sender.transform = CGAffineTransform.identity
+        }, completion: { Void in()  }
+        )
         kolodaView?.swipe(.left)
     }
     
@@ -193,10 +208,16 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
     func koloda(_ koloda: KolodaView, viewForCardAt index: Int) -> UIView { //Return a view to be displayed at the specified index in the KolodaView.
         let imageView = UIImageView()
         imageView.kf.setImage(with: cardsToShow[index].getCardURL())
-        
+        imageView.roundedCorners(radius: 10)
+        imageView.layer.masksToBounds = true
+        imageView.contentMode = UIViewContentMode.scaleAspectFill
         return imageView
 
     }
+    
+    
+    
+   
    
     
    
@@ -249,6 +270,16 @@ extension Array
         {
             sort { (_,_) in arc4random() < arc4random()}
         }
+    }
+}
+
+extension CAGradientLayer {
+    func addGradientLayer(view: UIView){
+        colors = [UIColor.black.cgColor, UIColor.init(red: 27, green: 51, blue: 89).cgColor]
+        frame = view.frame
+        
+        view.layer.insertSublayer(self, at: 0)
+        
     }
 }
 

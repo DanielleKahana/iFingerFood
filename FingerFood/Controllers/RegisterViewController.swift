@@ -18,6 +18,7 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var registerBtn: UIButton!
     
     private var dataHandler: DataManager? = nil
     
@@ -36,15 +37,19 @@ class RegisterViewController: UIViewController {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         
-        let emailImage = UIImage(named: "mail")
+        let emailImage = UIImage(named: "email")
         addLeftImageToTextField(txtField: emailTextField, image: emailImage!)
         
-        let lockImage = UIImage(named: "lock")
+        let lockImage = UIImage(named: "password")
         addLeftImageToTextField(txtField: passwordTextField, image: lockImage!)
         
-        let profileImage = UIImage(named: "mail")
+        let profileImage = UIImage(named: "user")
         addLeftImageToTextField(txtField: firstNameTextField, image: profileImage!)
         addLeftImageToTextField(txtField: lastNameTextField, image: profileImage!)
+        
+        CAGradientLayer().addGradientLayer(view: view)
+        let registerColor = UIColor(red: 245, green: 245, blue: 222).cgColor
+        registerBtn.addBorderLine(color: registerColor)
         
     }
     
@@ -56,7 +61,14 @@ class RegisterViewController: UIViewController {
         txtField.leftViewMode = .always
     }
 
-    @IBAction func registerBtnPressed(_ sender: Any) {
+    @IBAction func registerBtnPressed(_ sender: UIButton) {
+        
+        sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+        UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: CGFloat(0.20), initialSpringVelocity: CGFloat(6.0), options: UIViewAnimationOptions.allowUserInteraction,  animations: {
+            sender.transform = CGAffineTransform.identity
+        }, completion: { Void in ()   }
+        )
+
         removeHighlightFromAllTextFields()
         
         guard let firstName = firstNameTextField.text, !firstName.isEmpty else {

@@ -15,6 +15,8 @@ import CoreLocation
 
 class LoginViewController: UIViewController , CLLocationManagerDelegate {
 
+    @IBOutlet weak var registerBtn: UIButton!
+    @IBOutlet weak var signinBtn: UIButton!
     @IBOutlet weak var emailTextField:UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
@@ -55,8 +57,9 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
-    
+        setUpButtons()
         User.getInstance().setLocation(latitude: self.latitude, longitude: self.longitude)
 
         if Auth.auth().currentUser != nil {
@@ -65,10 +68,10 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
             login(id: userId!)
         }
  
-        let emailImage = UIImage(named: "mail")
+        let emailImage = UIImage(named: "email")
         addLeftImageToTextField(txtField: emailTextField, image: emailImage!)
         
-        let lockImage = UIImage(named: "lock")
+        let lockImage = UIImage(named: "password")
         addLeftImageToTextField(txtField: passwordTextField, image: lockImage!)
     }
     
@@ -82,11 +85,7 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
     }
     
 
-    func HighlightErrorTextField(textField : UITextField) {
-        textField.layer.borderColor = UIColor.red.cgColor
-        textField.layer.borderWidth = 3
-        textField.layer.cornerRadius = 5
-    }
+ 
     
     func addLeftImageToTextField(txtField : UITextField , image : UIImage) {
         let leftImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
@@ -96,20 +95,33 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
     }
     
     @IBAction func passwordTextFieldEdit(_ sender: UITextField) {
-        passwordTextField.layer.borderColor = UIColor.gray.cgColor
-        passwordTextField.layer.borderWidth = 0
-        passwordTextField.layer.cornerRadius = 5
+        clearTextField(tf: passwordTextField)
     }
     
-    
     @IBAction func emailTextFieldEdit(_ sender: UITextField) {
-        emailTextField.layer.borderColor = UIColor.gray.cgColor
-        emailTextField.layer.borderWidth = 0
-        emailTextField.layer.cornerRadius = 5
+        clearTextField(tf: emailTextField)
+    }
+    
+    func clearTextField(tf : UITextField) {
+        tf.layer.borderColor = UIColor.gray.cgColor
+        tf.layer.borderWidth = 0
+        tf.layer.cornerRadius = 5
+    }
+    
+    func HighlightErrorTextField(textField : UITextField) {
+        textField.layer.borderColor = UIColor.red.cgColor
+        textField.layer.borderWidth = 3
+        textField.layer.cornerRadius = 5
     }
     
     @IBAction func signInBtnPressed(_ sender: UIButton) {
         
+        sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+        UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: CGFloat(0.20), initialSpringVelocity: CGFloat(6.0), options: UIViewAnimationOptions.allowUserInteraction,  animations: {
+            sender.transform = CGAffineTransform.identity
+        }, completion: { Void in ()   }
+        )
+  
         if ConnectionManager.shared.isNetworkAvailable == false  { goToNetworkErrorVC() }
         
         guard let email = emailTextField.text, !email.isEmpty else {
@@ -172,7 +184,7 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
     }
     
     
-    @IBAction func registerBtnPressed(_ sender: Any) {
+    @IBAction func registerBtnPressed(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewController(withIdentifier:  "RegisterViewController")
         navigationController?.pushViewController(viewController, animated: true)
@@ -194,7 +206,22 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
         self.view.makeToast("Location Unavailable")
     }
     
+    func setUpButtons(){
+        let signInColor = UIColor(red: 149, green: 174, blue: 212).cgColor
+        let registerColor = UIColor(red: 230, green: 233, blue: 239).cgColor
+        signinBtn.addBorderLine(color: signInColor)
+        registerBtn.addBorderLine(color: registerColor)
+    }
     
+    
+}
+
+extension UIButton {
+    func addBorderLine(color: CGColor){
+        layer.borderColor = color
+        layer.borderWidth = 2
+        roundedCorners(radius: 10)
+    }
 }
 
 
@@ -207,6 +234,16 @@ extension UITextField{
         set {
             self.attributedPlaceholder = NSAttributedString(string: self.placeholder != nil ? self.placeholder! : "", attributes: [NSAttributedStringKey.foregroundColor: newValue!])
         }
+    }
+}
+
+extension UIColor{
+    convenience init(red: Int, green: Int, blue : Int){
+        let newRed = CGFloat(red)/225
+        let newGreen = CGFloat(green)/225
+        let newBlue = CGFloat(blue)/225
+        
+        self.init(red: newRed, green: newGreen, blue: newBlue, alpha: 1.0)
     }
 }
 

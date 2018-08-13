@@ -43,8 +43,10 @@ class PopUpViewController: UIViewController , SFSafariViewControllerDelegate {
         addressLabel.text = address
     }
 
+  
 
-    override func didReceiveMemoryWarning() {
+ 
+ override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
@@ -60,27 +62,54 @@ class PopUpViewController: UIViewController , SFSafariViewControllerDelegate {
     }
     
     @IBAction func dissmissPopUp(_ sender: Any) {
-        self.view.removeFromSuperview()
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear, animations: {
+            
+            self.PopUpView.transform = CGAffineTransform(scaleX: 0.05, y: 0.05)
+        }, completion: { _ in
+            self.PopUpView.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
+             self.view.removeFromSuperview()
+        })
+         //self.view.removeFromSuperview()
+       
     }
     
-    @IBAction func disslikeBtnPressed(_ sender: Any) {
+    @IBAction func disslikeBtnPressed(_ sender: UIButton) {
+        
+        sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+        UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: CGFloat(0.20), initialSpringVelocity: CGFloat(6.0), options: UIViewAnimationOptions.allowUserInteraction,  animations: {
+            sender.transform = CGAffineTransform.identity
+        }, completion: { Void in (self.removeLikedCard())   }
+        )
+
+    }
+    
+    func removeLikedCard() {
         User.getInstance().removeCardFromLikes(card: card!)
         parent?.view.reloadInputViews()
         self.view.removeFromSuperview()
         
         delegate?.deleteCard(card: card!, indexPath: cellIndexPath!)
-        
-        
-        
     }
     
     @IBAction func mapBtnPressed(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = storyboard.instantiateViewController(withIdentifier: "MapViewController")
+        let viewController = storyboard.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
+        var latitude : Double = 0
+        var longitude : Double = 0
+        
+        for rest in allRests! {
+            if rest.getId() == card?.getRestId() {
+                 latitude = rest.getLatitude()
+                 longitude = rest.getLongitude()
+            }
+        }
+        viewController.latitude = latitude
+        viewController.longitude = longitude
+
         navigationController?.pushViewController(viewController, animated: true)
     }
     
-    @IBAction func callBtnPressed(_ sender: Any) {
+    @IBAction func callBtnPressed(_ sender: UIButton) {        
         for rest in allRests! {
             if rest.getId() == card?.getRestId() {
                 let phoneNumber = rest.getPhone()
@@ -117,11 +146,16 @@ extension UIView {
     }
     
     func dropShadow(){
-        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowColor = UIColor.white.cgColor
         layer.shadowOffset = .zero
         layer.shadowOpacity = 0.6
         layer.shadowRadius = 10.0
         layer.shadowPath = UIBezierPath(rect: bounds).cgPath
         layer.shouldRasterize = true
     }
+    
+    func clearShadow() {
+        layer.shadowColor = UIColor.clear.cgColor
+        layer.shadowOpacity = 0.0
+        layer.shadowRadius = 0.0    }
 }
