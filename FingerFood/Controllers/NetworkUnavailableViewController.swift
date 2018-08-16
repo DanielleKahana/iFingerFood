@@ -30,7 +30,10 @@ class NetworkUnavailableViewController: UIViewController {
     
 
     
-    @IBAction func retryBtnPressed(_ sender: Any) {
+    @IBAction func retryBtnPressed(_ sender: UIButton) {
+        
+        animate(sender: sender)
+        
         if ConnectionManager.shared.isNetworkAvailable {
             self.navigationController?.popToRootViewController(animated: true)
         }
@@ -38,6 +41,15 @@ class NetworkUnavailableViewController: UIViewController {
             self.view.makeToast("network unavailable, please check device settings.", duration: 3.0 , position: .center)
         }
         
+    }
+    
+    
+    func animate(sender: UIButton) {
+        sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+        UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: CGFloat(0.20), initialSpringVelocity: CGFloat(6.0), options: UIViewAnimationOptions.allowUserInteraction,  animations: {
+            sender.transform = CGAffineTransform.identity
+        }, completion: { Void in ()   }
+        )
     }
    
     

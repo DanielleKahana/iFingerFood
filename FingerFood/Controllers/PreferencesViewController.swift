@@ -12,16 +12,17 @@ class PreferencesViewController: UIViewController, UIPickerViewDelegate , UIPick
   
     @IBOutlet weak var deliveryBtn: UIButton!
     @IBOutlet weak var kosherBtn: UIButton!
-    @IBOutlet weak var sliderContainer: UIView!
+    @IBOutlet weak var priceContainer: UIView!
+    
+    @IBOutlet weak var distanceContainer: UIView!
     
     @IBOutlet weak var applyBtn: UIButton!
     @IBOutlet weak var cancelBtn: UIButton!
     
-    @IBOutlet weak var pickerContainer: UIView!
+    
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var pricePicker: UIPickerView!
-    @IBOutlet weak var deliveryView: UIView!
-    @IBOutlet weak var kosherView: UIView!
+   
     @IBOutlet weak var slider: UISlider!
 
     let prices = ["All" , "$", "$$" ,"$$$", "$$$$"]
@@ -48,6 +49,9 @@ class PreferencesViewController: UIViewController, UIPickerViewDelegate , UIPick
         setDistanceText(dist: distanceValue!)
         toggleDeliveryButton(hasDelivery: hasDeliveryChecked)
         toggleKosherButton(hasKosher: isKosherChecked)
+        
+        pricePicker.setValue(UIColor.white, forKey: "textColor")
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -59,16 +63,17 @@ class PreferencesViewController: UIViewController, UIPickerViewDelegate , UIPick
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         
-        pickerContainer.roundedCorners(radius: 10)
-        sliderContainer.roundedCorners(radius: 10)
-        
         let color = UIColor(red: 245, green: 245, blue: 222).cgColor
         applyBtn.addBorderLine(color: color)
         cancelBtn.addBorderLine(color: color)
         
+        priceContainer.addBorderLine(color: color)
+        distanceContainer.addBorderLine(color: color)
+ 
        
     }
-    
+
+   
     @IBAction func distanceSliderChanged(_ sender: UISlider) {
         distanceValue = Int(sender.value)
         setDistanceText(dist: distanceValue!)
@@ -132,37 +137,34 @@ class PreferencesViewController: UIViewController, UIPickerViewDelegate , UIPick
     }
     
     @IBAction func kosherBtnPressed(_ sender: UIButton) {
-        
-        sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
-        UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: CGFloat(0.20), initialSpringVelocity: CGFloat(6.0), options: UIViewAnimationOptions.allowUserInteraction,  animations: {
-            sender.transform = CGAffineTransform.identity
-        }, completion: { Void in ()   }
-        )
-        
         if isKosherChecked {
             toggleKosherButton(hasKosher: false)
         }else {
+            animate(sender: sender)
             toggleKosherButton(hasKosher: true)
         }
     }
     
     @IBAction func deliveryBtnPressed(_ sender: UIButton) {
         
-        sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
-        UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: CGFloat(0.20), initialSpringVelocity: CGFloat(6.0), options: UIViewAnimationOptions.allowUserInteraction,  animations: {
-            sender.transform = CGAffineTransform.identity
-        }, completion: { Void in ()   }
-        )
-        
         if hasDeliveryChecked {
             toggleDeliveryButton(hasDelivery: false)
         }else {
+            animate(sender: sender)
             toggleDeliveryButton(hasDelivery: true)
             
         }
         
     }
   
+    func animate(sender: UIButton) {
+        sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+        UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: CGFloat(0.20), initialSpringVelocity: CGFloat(6.0), options: UIViewAnimationOptions.allowUserInteraction,  animations: {
+            sender.transform = CGAffineTransform.identity
+        }, completion: { Void in ()   }
+        )
+    }
+    
  
     func toggleKosherButton(hasKosher : Bool) {
         if hasKosher {

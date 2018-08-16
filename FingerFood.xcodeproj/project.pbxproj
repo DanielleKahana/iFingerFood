@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		04746C1921143A7700AFF4B1 /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04746C1821143A7700AFF4B1 /* ConnectionManager.swift */; };
 		04787064210744C7004C0385 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04787063210744C7004C0385 /* User.swift */; };
-		047AEB022101EA5D000CE265 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 047AEB012101EA5D000CE265 /* GoogleService-Info.plist */; };
 		048325AD20FF9544007BBBFC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048325AC20FF9544007BBBFC /* AppDelegate.swift */; };
 		048325B220FF9544007BBBFC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048325B020FF9544007BBBFC /* Main.storyboard */; };
 		048325B720FF9544007BBBFC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048325B520FF9544007BBBFC /* LaunchScreen.storyboard */; };
@@ -25,6 +24,7 @@
 		04A391E22114AF7B0034CFE7 /* NetworkUnavailableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A391E12114AF7B0034CFE7 /* NetworkUnavailableViewController.swift */; };
 		04BEA66C210FA30400C6A412 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04BEA66B210FA30300C6A412 /* Assets.xcassets */; };
 		04C06FEC210F5BC400C6C912 /* CardViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C06FEB210F5BC400C6C912 /* CardViewCell.swift */; };
+		04D90AC2212583C500668B1E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04D90AC1212583C400668B1E /* GoogleService-Info.plist */; };
 		04E85D462118470A00E6EB83 /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E85D452118470A00E6EB83 /* PopUpViewController.swift */; };
 		04E85D48211875F200E6EB83 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E85D47211875F200E6EB83 /* MapViewController.swift */; };
 		F573DD1D59876C2B49536938 /* Pods_FingerFood.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17ABB1053E2DA2BF0B9DC323 /* Pods_FingerFood.framework */; };
@@ -34,7 +34,6 @@
 		0470DD79211DDB10008E08A1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		04746C1821143A7700AFF4B1 /* ConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionManager.swift; sourceTree = "<group>"; };
 		04787063210744C7004C0385 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		047AEB012101EA5D000CE265 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		048325A920FF9544007BBBFC /* FingerFood.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FingerFood.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		048325AC20FF9544007BBBFC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		048325B120FF9544007BBBFC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -52,6 +51,7 @@
 		04A391E12114AF7B0034CFE7 /* NetworkUnavailableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkUnavailableViewController.swift; sourceTree = "<group>"; };
 		04BEA66B210FA30300C6A412 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04C06FEB210F5BC400C6C912 /* CardViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewCell.swift; sourceTree = "<group>"; };
+		04D90AC1212583C400668B1E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		04E85D452118470A00E6EB83 /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
 		04E85D47211875F200E6EB83 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		17ABB1053E2DA2BF0B9DC323 /* Pods_FingerFood.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FingerFood.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,7 +102,7 @@
 		048325AB20FF9544007BBBFC /* FingerFood */ = {
 			isa = PBXGroup;
 			children = (
-				047AEB012101EA5D000CE265 /* GoogleService-Info.plist */,
+				04D90AC1212583C400668B1E /* GoogleService-Info.plist */,
 				0470DD78211DDAF9008E08A1 /* Supporting Files */,
 				048325D220FF9766007BBBFC /* Controllers */,
 				04977A3D21034F96002B5FB9 /* Model */,
@@ -228,7 +228,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				048325B720FF9544007BBBFC /* LaunchScreen.storyboard in Resources */,
-				047AEB022101EA5D000CE265 /* GoogleService-Info.plist in Resources */,
+				04D90AC2212583C500668B1E /* GoogleService-Info.plist in Resources */,
 				04BEA66C210FA30400C6A412 /* Assets.xcassets in Resources */,
 				048325B220FF9544007BBBFC /* Main.storyboard in Resources */,
 			);
@@ -461,7 +461,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 47H58PFXN9;
 				INFOPLIST_FILE = "$(SRCROOT)/FingerFood/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -479,7 +481,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 47H58PFXN9;
 				INFOPLIST_FILE = "$(SRCROOT)/FingerFood/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

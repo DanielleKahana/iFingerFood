@@ -17,8 +17,6 @@ import CoreLocation
 class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDelegate {
     
     
-    @IBOutlet weak var cardContainerView: UIView!
-    
     @IBOutlet weak var restLabel: UILabel!
     @IBOutlet weak var kolodaView: KolodaView!
     
@@ -26,7 +24,6 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
     
     private var allRestaurants : [Restaurant] = []
     private var allLikedCards : [Card] = []
-    private var currentLikedCardsIndexes : [Int] = []
     private var allEligbleCards : [Card] = []
     private var cardsToShow : [Card] = []
     private var userHandler : User? = nil
@@ -34,20 +31,9 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-         kolodaView.roundedCorners(radius: 10)
-      /*
-        userHandler = User.getInstance()
-        dataHandler = DataManager.getInstance()
-        */
+        kolodaView.roundedCorners(radius: 10)
         kolodaView.countOfVisibleCards = 3
-        
         ImageCache.default.maxMemoryCost = 5 * 1024 * 1024
-      /*
-        allRestaurants = (dataHandler?.getAllRestaurants())!
-        allLikedCards = (userHandler?.getAllLikes())!
-        
-        setCardToShow()
-      */
         kolodaView.dataSource = self
         kolodaView.delegate = self
     
@@ -55,17 +41,11 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
       
     }
     
-    /*override func viewDidAppear(_ animated: Bool) {
-        kolodaView.reloadData()
-    }*/
-    
   
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        
-       
         
         userHandler = User.getInstance()
         dataHandler = DataManager.getInstance()
@@ -73,8 +53,6 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
         allRestaurants = (dataHandler?.getAllRestaurants())!
         allLikedCards = (userHandler?.getAllLikes())!
         setCardToShow()
-        
-        
         
         if !allEligbleCards.isEmpty {
             allEligbleCards.removeAll()
@@ -152,34 +130,26 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
                 allEligbleCards.append(contentsOf: rest.getAllCards())
             }
         }
-
-        
         cardsToShow = Array(Set(allEligbleCards).subtracting(Set(allLikedCards)))
+        if (cardsToShow.isEmpty) {
+            restLabel.text = "Sorry, no restaurents found 😔"
+        }
+        else {cardsToShow.shuffle()}
         
-        cardsToShow.shuffle()
     
     }
  
   
     
     @IBAction func likeBtnPressed(_ sender: UIButton) {
-        
-        sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
-        
-        UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: CGFloat(0.20), initialSpringVelocity: CGFloat(6.0), options: UIViewAnimationOptions.allowUserInteraction, animations: {
-            sender.transform = CGAffineTransform.identity }, completion: { Void in()  }
-        )
+        animate(sender: sender)
         kolodaView?.swipe(.right)
        
     }
     
 
     @IBAction func disslikeBtnPressed(_ sender: UIButton) {
-        sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
-        UIView.animate(withDuration: 1.0, delay: 0, usingSpringWithDamping: CGFloat(0.20), initialSpringVelocity: CGFloat(6.0), options: UIViewAnimationOptions.allowUserInteraction,  animations: {
-            sender.transform = CGAffineTransform.identity
-        }, completion: { Void in()  }
-        )
+        animate(sender: sender)
         kolodaView?.swipe(.left)
     }
     
@@ -193,8 +163,7 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
     
     
     func kolodaDidRunOutOfCards(_ koloda: KolodaView) {
-        //allLikedCards = (dataHandler?.getAllUserLikedCards())!
-        allLikedCards = (userHandler?.getAllLikes())! // Likes doesn't repeat
+        allLikedCards = (userHandler?.getAllLikes())!
         setCardToShow()
         kolodaView.resetCurrentCardIndex()
         kolodaView.reloadData()
@@ -214,25 +183,25 @@ class MainViewController: UIViewController , KolodaViewDataSource , KolodaViewDe
         return imageView
 
     }
-    
-    
-    
-   
-   
-    
-   
+
     func kolodaSpeedThatCardShouldDrag(_ koloda: KolodaView) -> DragSpeed {
         return .default
         
     }
-    
-    
     
     func koloda(_ koloda: KolodaView, didSwipeCardAt index: Int, in direction: SwipeResultDirection) {
         
         if (direction == .right) {
             userHandler?.addCardToLikes(card: cardsToShow[index])
         }
+    }
+    
+    func animate(sender: UIButton) {
+        sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+        UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: CGFloat(0.20), initialSpringVelocity: CGFloat(6.0), options: UIViewAnimationOptions.allowUserInteraction,  animations: {
+            sender.transform = CGAffineTransform.identity
+        }, completion: { Void in ()   }
+        )
     }
     
     @IBAction func signOutPressed(_ sender: Any) {

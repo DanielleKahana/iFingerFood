@@ -31,7 +31,7 @@ class ForgotPasswordViewController: UIViewController {
         CAGradientLayer().addGradientLayer(view: view)
         
         
-        let emailImage = UIImage(named: "email")
+        let emailImage = UIImage(named: "ic_email")
         addLeftImageToTextField(txtField: resetEmailTextField, image: emailImage!)
         
         let resetColor = UIColor(red: 245, green: 245, blue: 222).cgColor

@@ -68,10 +68,10 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
             login(id: userId!)
         }
  
-        let emailImage = UIImage(named: "email")
+        let emailImage = UIImage(named: "ic_email")
         addLeftImageToTextField(txtField: emailTextField, image: emailImage!)
         
-        let lockImage = UIImage(named: "password")
+        let lockImage = UIImage(named: "ic_lock")
         addLeftImageToTextField(txtField: passwordTextField, image: lockImage!)
     }
     
@@ -116,11 +116,7 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
     
     @IBAction func signInBtnPressed(_ sender: UIButton) {
         
-        sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
-        UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: CGFloat(0.20), initialSpringVelocity: CGFloat(6.0), options: UIViewAnimationOptions.allowUserInteraction,  animations: {
-            sender.transform = CGAffineTransform.identity
-        }, completion: { Void in ()   }
-        )
+        animate(sender: sender)
   
         if ConnectionManager.shared.isNetworkAvailable == false  { goToNetworkErrorVC() }
         
@@ -213,10 +209,18 @@ class LoginViewController: UIViewController , CLLocationManagerDelegate {
         registerBtn.addBorderLine(color: registerColor)
     }
     
+    func animate(sender: UIButton) {
+        sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+        UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: CGFloat(0.20), initialSpringVelocity: CGFloat(6.0), options: UIViewAnimationOptions.allowUserInteraction,  animations: {
+            sender.transform = CGAffineTransform.identity
+        }, completion: { Void in ()   }
+        )
+    }
+    
     
 }
 
-extension UIButton {
+extension UIView {
     func addBorderLine(color: CGColor){
         layer.borderColor = color
         layer.borderWidth = 2

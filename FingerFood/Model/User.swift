@@ -18,17 +18,17 @@ class User {
     
     private static var sharedData : User? = nil
     
-    private var userId : String!
-    private var username : String!
+    private var userId : String?
+    private var username : String?
     private var likedCards : [Card] = [Card]()
     private var dataHandler : DataManager? = nil
     
-    private var latitude : Double!
-    private var longitude : Double!
-    private var prefferedPrice : Int!
-    private var prefferedDistance: Int!
-    private var deliveryPrefference: Bool!
-    private var kosherPrefferecne : Bool!
+    private var latitude : Double?
+    private var longitude : Double?
+    private var prefferedPrice : Int?
+    private var prefferedDistance: Int?
+    private var deliveryPrefference: Bool?
+    private var kosherPrefferecne : Bool?
     
     private init() {
         dataHandler = DataManager.getInstance()
@@ -58,7 +58,7 @@ class User {
             return
         }
         likedCards.append(card)
-        dataHandler?.writeCardToLikes(userId: userId , card: card)
+        dataHandler?.writeCardToLikes(userId: userId! , card: card)
     }
     
    
@@ -67,7 +67,7 @@ class User {
     }
     
     func getUsername() -> String {
-        return username
+        return username!
     }
   
     func setLikedCards(cards : [Card]) {
@@ -79,7 +79,7 @@ class User {
             let i = likedCards.index(of: card)
             likedCards.remove(at: i!)
         }
-        dataHandler?.removeCardFromLikes(userId: userId , card: card) 
+        dataHandler?.removeCardFromLikes(userId: userId! , card: card)
     }
     
     func setKosher(isKosher : Bool) {
@@ -108,28 +108,28 @@ class User {
     }
 
     func getLatitude() -> Double {
-        return latitude
+        return latitude!
     }
     
     func getLongitude() -> Double {
-        return longitude
+        return longitude!
     }
     
     func isUserWantKosher() -> Bool {
-        return kosherPrefferecne
+        return kosherPrefferecne!
     }
     
     func isUserWantDelivery() -> Bool {
-        return deliveryPrefference
+        return deliveryPrefference!
         
     }
     
     func getPrefferedDistance() -> Int {
-        return prefferedDistance
+        return prefferedDistance!
     }
     
     func getPrefferedPrice() -> Int {
-        return prefferedPrice
+        return prefferedPrice!
     }
     
     func getAllLikes() -> [Card] {

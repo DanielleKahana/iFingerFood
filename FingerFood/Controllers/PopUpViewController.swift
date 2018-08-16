@@ -62,14 +62,7 @@ class PopUpViewController: UIViewController , SFSafariViewControllerDelegate {
     }
     
     @IBAction func dissmissPopUp(_ sender: Any) {
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear, animations: {
-            
-            self.PopUpView.transform = CGAffineTransform(scaleX: 0.05, y: 0.05)
-        }, completion: { _ in
-            self.PopUpView.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
-             self.view.removeFromSuperview()
-        })
-         //self.view.removeFromSuperview()
+         self.view.removeFromSuperview()
        
     }
     
@@ -82,6 +75,7 @@ class PopUpViewController: UIViewController , SFSafariViewControllerDelegate {
         )
 
     }
+    
     
     func removeLikedCard() {
         User.getInstance().removeCardFromLikes(card: card!)
